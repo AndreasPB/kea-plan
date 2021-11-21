@@ -1,0 +1,31 @@
+version: "3"
+services:
+    backend:
+        build: ./backend
+        container_name: backend
+        ports:
+            - 2000:2000
+    frontend:
+        restart: on-failure
+        build: ./frontend
+        container_name: frontend
+        command: npm run dev -- --host
+        ports:
+            - 3000:3000
+            - 24678:24678
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+    database:
+        image: postgres
+        container_name: database
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: KEAPlan
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+volumes:
+    pgdata:
