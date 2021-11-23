@@ -3,6 +3,10 @@ services:
   backend:
     build: ./backend
     container_name: backend
+    depends_on:
+      - database
+    links:
+      - database
     ports:
       - 2000:2000
   frontend:
