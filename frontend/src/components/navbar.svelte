@@ -1,6 +1,8 @@
 <div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
-  <div class="flex-1 hidden px-2 mx-2 lg:flex">
-    <span class="text-lg font-bold"> KEAPlan </span>
+  <div class="flex-1 px-2 mx-2 lg:flex">
+    <a href="/">
+      <span class="text-lg font-bold"> KEAPlan </span>
+    </a>
   </div>
   <div class="flex-none">
     <div class="dropdown dropdown-end">
