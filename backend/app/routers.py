@@ -1,7 +1,13 @@
+import random
+import string
+
 from fastapi import APIRouter
 from fastapi import Form
 
 router = APIRouter()
+
+TOKEN_SIZE = 4
+TOKEN_CHARS = string.ascii_uppercase + string.digits
 
 
 @router.get("/")
@@ -53,3 +59,8 @@ async def login(username: str = Form(...), password: str = Form(...)):
                     "data": f"Logged in as {username}"}
 
     return {"status": "unsuccessful", "username": username, "password": "yea, no"}
+
+
+@router.get("/generate_token")
+def generate_token():
+    return ''.join(random.choice(TOKEN_CHARS) for _ in range(TOKEN_SIZE))
