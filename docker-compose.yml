@@ -2,7 +2,10 @@ version: "3"
 services:
   backend:
     build: ./backend
+    restart: always
     container_name: backend
+    volumes:
+      - ./backend:/app
     depends_on:
       - database
     links:
