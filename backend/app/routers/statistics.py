@@ -1,5 +1,7 @@
+from app.db.redis import Class
 from app.db.redis import Student
-from app.db.redis import students as test_students
+from app.db.redis_test_data import test_classes
+from app.db.redis_test_data import test_students
 from fastapi import APIRouter
 from fastapi import HTTPException
 
@@ -27,7 +29,7 @@ async def read_student(id: int) -> Student:
 async def read_students() -> list[Student]:
     if students := await Student.select():
         return students
-    raise HTTPException(status_code=404, detail="Student not found")
+    raise HTTPException(status_code=404, detail="Students not found")
 
 
 @router.put("/student/{id}")
@@ -58,3 +60,18 @@ async def delete_test_students() -> list[Student]:
             await student.delete()
         return students
     raise HTTPException(status_code=500, detail="No students to delete")
+
+
+@router.post("/test/classes")
+async def create_test_classes() -> list[Class]:
+    await Class.insert(test_classes)
+    return test_classes
+
+
+@router.delete("/test/classes")
+async def delete_test_classes() -> list[Class]:
+    if classes := await Class.select():
+        for class_ in classes:
+            await class_.delete()
+        return classes
+    raise HTTPException(status_code=500, detail="No classes to delete")
