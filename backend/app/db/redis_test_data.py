@@ -1,8 +1,8 @@
-from app.db.redis import Class
-from app.db.redis import ClassCourse
-from app.db.redis import ClassCourseAttendance
-from app.db.redis import Student
-from app.db.redis import StudentCourse
+from app.db.redis_models import Semester
+from app.db.redis_models import SemesterCourse
+from app.db.redis_models import SemesterCourseAttendance
+from app.db.redis_models import Student
+from app.db.redis_models import StudentCourse
 
 
 test_students = [
@@ -44,51 +44,51 @@ test_students = [
     ),
 ]
 
-test_classes = [
-    Class(
+test_semesters = [
+    Semester(
         id=1,
         name="Class 1",
         courses=[
-            ClassCourse(
+            SemesterCourse(
                 id=1, name="Math", course_attendance=[
-                    ClassCourseAttendance(name="John", attendance_percentage=90),
-                    ClassCourseAttendance(name="Jane", attendance_percentage=95),
+                    SemesterCourseAttendance(name="John", attendance_percentage=90),
+                    SemesterCourseAttendance(name="Jane", attendance_percentage=95),
                 ],
             ),
-            ClassCourse(
+            SemesterCourse(
                 id=2, name="English", course_attendance=[
-                    ClassCourseAttendance(name="John", attendance_percentage=80),
-                    ClassCourseAttendance(name="Jane", attendance_percentage=85),
+                    SemesterCourseAttendance(name="John", attendance_percentage=80),
+                    SemesterCourseAttendance(name="Jane", attendance_percentage=85),
                 ],
             ),
-            ClassCourse(
+            SemesterCourse(
                 id=3, name="Physics", course_attendance=[
-                    ClassCourseAttendance(name="John", attendance_percentage=70),
-                    ClassCourseAttendance(name="Jane", attendance_percentage=75),
+                    SemesterCourseAttendance(name="John", attendance_percentage=70),
+                    SemesterCourseAttendance(name="Jane", attendance_percentage=75),
                 ],
             ),
         ],
     ),
-    Class(
+    Semester(
         id=2,
         name="Class 2",
         courses=[
-            ClassCourse(
+            SemesterCourse(
                 id=1, name="Math", course_attendance=[
-                    ClassCourseAttendance(name="Bob", attendance_percentage=40),
-                    ClassCourseAttendance(name="Alice", attendance_percentage=10),
+                    SemesterCourseAttendance(name="Bob", attendance_percentage=40),
+                    SemesterCourseAttendance(name="Alice", attendance_percentage=10),
                 ],
             ),
-            ClassCourse(
+            SemesterCourse(
                 id=2, name="English", course_attendance=[
-                    ClassCourseAttendance(name="Bob", attendance_percentage=50),
-                    ClassCourseAttendance(name="Alice", attendance_percentage=20),
+                    SemesterCourseAttendance(name="Bob", attendance_percentage=50),
+                    SemesterCourseAttendance(name="Alice", attendance_percentage=20),
                 ],
             ),
-            ClassCourse(
+            SemesterCourse(
                 id=3, name="Physics", course_attendance=[
-                    ClassCourseAttendance(name="Bob", attendance_percentage=60),
-                    ClassCourseAttendance(name="Alice", attendance_percentage=30),
+                    SemesterCourseAttendance(name="Bob", attendance_percentage=60),
+                    SemesterCourseAttendance(name="Alice", attendance_percentage=30),
                 ],
             ),
         ],
