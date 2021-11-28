@@ -1,8 +1,10 @@
 import asyncio
 
 from app.db.models import SQLModel
+from app.db.redis import Class
 from app.db.redis import Student
-from app.db.redis import students
+from app.db.redis_test_data import test_classes
+from app.db.redis_test_data import test_students
 from app.db.sql import engine
 from app.routers import login
 from app.routers import statistics
@@ -41,12 +43,14 @@ async def init_db():
 @app.on_event("startup")
 async def init_redis():
     try:
-        await Student.insert(students)
+        await Student.insert(test_students)
+        await Class.insert(test_classes)
     except Exception as e:
         print(e)
         print("Will try again in 2 seconds...")
         await asyncio.sleep(2)
-        await Student.insert(students)
+        await Student.insert(test_students)
+        await Class.insert(test_classes)
 
 
 @app.get("/")

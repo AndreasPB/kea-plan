@@ -33,7 +33,7 @@ def test_get_student():
     assert not_found_reponse.status_code == 404
 
 
-# TODO: LOL
+# TODO: Doesn't work yet
 def test_put_student():
     ...
 
@@ -45,7 +45,7 @@ def test_delete_student():
     print(response.json())
 
 
-def test_create_students():
+def test_create_test_students():
     response = client.post("/statistics/test/student")
     assert response.status_code == 200
     data = response.json()
@@ -53,7 +53,7 @@ def test_create_students():
         assert Student(**student)
 
 
-def test_test_delete_students():
+def test_delete_test_students():
     response = client.delete("/statistics/test/students")
     assert response.status_code == 200
     data = response.json()

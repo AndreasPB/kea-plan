@@ -3,24 +3,37 @@ from pydantic_aioredis import RedisConfig
 from pydantic_aioredis import Store
 
 
-class Course(Model):
+class StudentCourse(Model):
+    """A course as seen from a student"""
     id: int
     name: str
+    attendance_percentage: int
 
 
 class Student(Model):
     _primary_key_field: int = "id"
     id: int
     name: str
-    courses: list[Course, str]
+    courses: list[StudentCourse]
 
 
-# TODO: Isn't implemented yet
+class ClassCourseAttendance(Model):
+    name: str
+    attendance_percentage: int
+
+
+class ClassCourse(Model):
+    """A course as seen from a class"""
+    id: int
+    name: str
+    course_attendance: list[ClassCourseAttendance]
+
+
 class Class(Model):
     _primary_key_field: int = "id"
     id: int
     name: str
-    courses: list[Course, list[str, str]]
+    courses: list[ClassCourse]
 
 
 store = Store(
@@ -29,26 +42,4 @@ store = Store(
     life_span_in_seconds=3600,
 )
 store.register_model(Student)
-
-
-# Test data
-students = [
-    Student(
-        id=1,
-        name="John",
-        courses=[
-            Course(id=1, name="Python", attendance="60%"),
-            Course(id=2, name="Java", attendance="70%"),
-            Course(id=3, name="C++", attendance="80%"),
-        ],
-    ),
-    Student(
-        id=2,
-        name="Jane",
-        courses=[
-            Course(id=1, name="Python", attendance="65%"),
-            Course(id=2, name="Java", attendance="75%"),
-            Course(id=3, name="C++", attendance="85%"),
-        ],
-    ),
-]
+store.register_model(Class)
