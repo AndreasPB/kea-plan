@@ -5,6 +5,9 @@
     </a>
   </div>
   <div class="flex-none">
+    <div>
+      <a class="btn btn-ghost btn-sm" href="/statistics"> Statistics </a>
+    </div>
     <div class="dropdown dropdown-end">
       <div tabindex="0" class="m-1 btn">Menu</div>
       <ul
