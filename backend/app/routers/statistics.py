@@ -13,6 +13,7 @@ router = APIRouter(
 )
 
 
+# Students
 @router.post("/student")
 async def create_students(students: list[Student]) -> Student:
     return await Student.insert(students)
@@ -44,6 +45,21 @@ async def delete_student(id: int) -> Student:
     student = await Student.select(ids=id)
     await student[0].delete()
     return student[0]
+
+
+# Semesters
+@router.get("/semesters")
+async def read_semesters() -> list[Semester]:
+    if semesters := await Semester.select():
+        return semesters
+    raise HTTPException(status_code=404, detail="Semesters not found")
+
+
+@router.get("/semester/{id}")
+async def read_semester(id: int) -> Semester:
+    if semester := await Semester.select(ids=id):
+        return semester[0]
+    raise HTTPException(status_code=404, detail="Semester not found")
 
 
 # For testing
