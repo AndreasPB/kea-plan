@@ -5,13 +5,13 @@
   // TODO: Should be controlled by token/auth system
   const HARDCODED_ID = 1
   const HARDCODED_CLASS_ID = 1
-  const HARDCODED_USER_TYPE = "teacher"
+  const HARDCODED_USER_TYPE = "student"
 
   // TODO: Should be held as an environment variable
   const API_URL = "http://localhost:2000"
 
   const fetchStatistics = async () => {
-    switch (HARDCODED_USER_TYPE) {
+    switch (HARDCODED_USER_TYPE as any) {
       case "student":
         var studentResponse = await fetch(
           `${API_URL}/statistics/student/${HARDCODED_ID}`
@@ -41,8 +41,7 @@
 
   {#if HARDCODED_USER_TYPE === "student"}
     <StudentStatisticsTable {statistics} />
-  {/if}
-  {#if HARDCODED_USER_TYPE === "teacher"}
+  {:else if HARDCODED_USER_TYPE === "teacher"}
     <TeacherStatisticsTable {statistics} />
   {/if}
 {/await}
