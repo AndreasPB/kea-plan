@@ -81,8 +81,8 @@ describe("Statistics", () => {
   it("should render", async () => {
     const page = render(Statistics)
 
-    expect(page).toBeTruthy()
-    expect(page.getByText("Loading statistics...")).toBeTruthy()
+    expect(page)
+    expect(page.getByText("Loading statistics..."))
   })
 
   it("should build a table with student data", async () => {
@@ -90,8 +90,11 @@ describe("Statistics", () => {
       statistics: studentTableData,
     })
 
-    expect(table).toBeTruthy()
-    expect(table.getAllByText("Math")).toBeTruthy()
+    expect(table)
+    expect(table.getAllByText("Name"))
+    expect(table.getAllByText("Math"))
+    expect(table.getByText("Attendance"))
+    expect(table.getByText("90%"))
   })
 
   it("should build a table with teacher/semester data", async () => {
@@ -99,7 +102,10 @@ describe("Statistics", () => {
       statistics: teacherTableData,
     })
 
-    expect(table).toBeTruthy()
-    expect(table.getAllByText("John")).toBeTruthy()
+    expect(table)
+    expect(table.getAllByText("Name"))
+    expect(table.getAllByText("John"))
+    expect(table.getAllByText("Attendance"))
+    expect(table.getByText("80%"))
   })
 })
