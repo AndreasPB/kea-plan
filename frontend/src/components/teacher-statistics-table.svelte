@@ -6,7 +6,7 @@
 <h2>Class courses:{chosenCourse}</h2>
 <div class="btn-group">
 {#each statistics.courses as course, index}
-  <input type="radio" name="options" bind:value={chosenCourse} id="option1" checked="checked" data-title="{course.name}{index}" data-value="{index}" class="btn"> 
+  <input type="radio" name="options" bind:value={chosenCourse} id="option1" checked="checked" data-title="{course.name}{index}" data-value="{index}" class="btn">
 {/each}
 </div>
 
