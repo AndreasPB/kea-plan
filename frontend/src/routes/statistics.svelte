@@ -5,7 +5,8 @@
   // TODO: Should be controlled by token/auth system
   const HARDCODED_ID = 1
   const HARDCODED_CLASS_ID = 1
-  const HARDCODED_USER_TYPE = "student"
+  let HARDCODED_USER_TYPE = "student"
+  HARDCODED_USER_TYPE = "teacher"
 
   // TODO: Should be held as an environment variable
   const API_URL = "http://localhost:2000"
