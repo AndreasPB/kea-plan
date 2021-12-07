@@ -19,9 +19,9 @@ async def create_students(students: list[Student]) -> Student:
     return await Student.insert(students)
 
 
-@router.get("/student/{id}")
-async def read_student(id: int) -> Student:
-    if student := await Student.select(ids=id):
+@router.get("/student/{user_id}")
+async def read_student(user_id: int) -> Student:
+    if student := await Student.select(ids=user_id):
         return student[0]
     raise HTTPException(status_code=404, detail="Student not found")
 
@@ -33,16 +33,16 @@ async def read_students() -> list[Student]:
     raise HTTPException(status_code=404, detail="Students not found")
 
 
-@router.put("/student/{id}")
-async def update_student(id: int, student: Student) -> Student:
-    await Student.update(_id=id, data=student)
-    student = await Student.select(ids=id)
+@router.put("/student/{user_id}")
+async def update_student(user_id: int, student: Student) -> Student:
+    await Student.update(_id=user_id, data=student)
+    student = await Student.select(ids=user_id)
     return student[0]
 
 
-@router.delete("/student/{id}")
-async def delete_student(id: int) -> Student:
-    student = await Student.select(ids=id)
+@router.delete("/student/{user_id}")
+async def delete_student(user_id: int) -> Student:
+    student = await Student.select(ids=user_id)
     await student[0].delete()
     return student[0]
 
@@ -55,9 +55,9 @@ async def read_semesters() -> list[Semester]:
     raise HTTPException(status_code=404, detail="Semesters not found")
 
 
-@router.get("/semester/{id}")
-async def read_semester(id: int) -> Semester:
-    if semester := await Semester.select(ids=id):
+@router.get("/semester/{class_id}")
+async def read_semester(class_id: int) -> Semester:
+    if semester := await Semester.select(ids=class_id):
         return semester[0]
     raise HTTPException(status_code=404, detail="Semester not found")
 
