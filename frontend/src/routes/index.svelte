@@ -1,3 +1,15 @@
+<script lang="ts">
+  import { onMount } from "svelte"
+  import { user } from "../stores/auth"
+  import { goto } from "$app/navigation/"
+
+  onMount(() => {
+    if (!$user.access_token) {
+      goto("/login")
+    }
+  })
+</script>
+
 <h1>Welcome to SvelteKit</h1>
 <p>
   Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation

@@ -50,19 +50,25 @@ test_semesters = [
         name="Class 1",
         courses=[
             SemesterCourse(
-                id=1, name="Math", course_attendance=[
+                id=1,
+                name="Math",
+                course_attendance=[
                     SemesterCourseAttendance(name="John", attendance_percentage=90),
                     SemesterCourseAttendance(name="Jane", attendance_percentage=95),
                 ],
             ),
             SemesterCourse(
-                id=2, name="English", course_attendance=[
+                id=2,
+                name="English",
+                course_attendance=[
                     SemesterCourseAttendance(name="John", attendance_percentage=80),
                     SemesterCourseAttendance(name="Jane", attendance_percentage=85),
                 ],
             ),
             SemesterCourse(
-                id=3, name="Physics", course_attendance=[
+                id=3,
+                name="Physics",
+                course_attendance=[
                     SemesterCourseAttendance(name="John", attendance_percentage=70),
                     SemesterCourseAttendance(name="Jane", attendance_percentage=75),
                 ],
@@ -74,19 +80,25 @@ test_semesters = [
         name="Class 2",
         courses=[
             SemesterCourse(
-                id=1, name="Math", course_attendance=[
+                id=1,
+                name="Math",
+                course_attendance=[
                     SemesterCourseAttendance(name="Bob", attendance_percentage=40),
                     SemesterCourseAttendance(name="Alice", attendance_percentage=10),
                 ],
             ),
             SemesterCourse(
-                id=2, name="English", course_attendance=[
+                id=2,
+                name="English",
+                course_attendance=[
                     SemesterCourseAttendance(name="Bob", attendance_percentage=50),
                     SemesterCourseAttendance(name="Alice", attendance_percentage=20),
                 ],
             ),
             SemesterCourse(
-                id=3, name="Physics", course_attendance=[
+                id=3,
+                name="Physics",
+                course_attendance=[
                     SemesterCourseAttendance(name="Bob", attendance_percentage=60),
                     SemesterCourseAttendance(name="Alice", attendance_percentage=30),
                 ],

@@ -1,6 +1,9 @@
 <script lang="ts">
   import StudentStatisticsTable from "../components/student-statistics-table.svelte"
   import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
+  import { user } from "../stores/auth.ts"
+  import { onMount } from "svelte"
+  import { goto } from "$app/navigation/"
 
   // TODO: Should be controlled by token/auth system
   const HARDCODED_ID = 1
@@ -32,6 +35,12 @@
         throw new Error("Invalid user type")
     }
   }
+
+  onMount(() => {
+    if (!$user.access_token) {
+      goto("/login")
+    }
+  })
 </script>
 
 {#await fetchStatistics()}
@@ -40,9 +49,9 @@
   <h1>Welcome to attendance statistics for {statistics.name}</h1>
   <br />
 
-  {#if HARDCODED_USER_TYPE === "student"}
+  {#if $user.user_type === "student"}
     <StudentStatisticsTable {statistics} />
-  {:else if HARDCODED_USER_TYPE === "teacher"}
+  {:else if $user.user_type === "teacher"}
     <TeacherStatisticsTable {statistics} />
   {/if}
 {/await}
