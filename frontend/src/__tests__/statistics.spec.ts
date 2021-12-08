@@ -1,4 +1,4 @@
-import "@testing-library/dom"
+import "@testing-library/jest-dom"
 
 import { render } from "@testing-library/svelte"
 
@@ -98,14 +98,40 @@ describe("Statistics", () => {
   })
 
   it("should build a table with teacher/semester data", async () => {
-    const table = render(TeacherStatisticsTable, {
-      statistics: teacherTableData,
-    })
+    const { getByText, getAllByText, queryByText } = render(
+      TeacherStatisticsTable,
+      {
+        statistics: teacherTableData,
+      }
+    )
 
-    expect(table)
-    expect(table.getAllByText("Name"))
-    expect(table.getAllByText("John"))
-    expect(table.getAllByText("Attendance"))
-    expect(table.getByText("80%"))
+    // Start class index 0(Math)
+    expect(getAllByText("Name"))
+    expect(getAllByText("Attendance"))
+    expect(getAllByText("John"))
+    expect(getByText("90%"))
+    expect(getAllByText("Jane"))
+    expect(getByText("95%"))
+
+    expect(queryByText("80%")).toBeNull()
+  })
+
+  it("should be able to build different tables dependant on the radio options", async () => {
+    const { getByText, getAllByText, queryByText } = render(
+      TeacherStatisticsTable,
+      {
+        statistics: teacherTableData,
+        chosenCourse: "English",
+      }
+    )
+
+    expect(getAllByText("Name"))
+    expect(getAllByText("Attendance"))
+    expect(getAllByText("John"))
+    expect(getByText("80%"))
+    expect(getAllByText("Jane"))
+    expect(getByText("85%"))
+
+    expect(queryByText("90%")).toBeNull()
   })
 })
