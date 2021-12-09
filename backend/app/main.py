@@ -6,6 +6,7 @@ from app.db.redis import Semester
 from app.db.redis import Student
 from app.db.redis_test_data import test_semesters
 from app.db.redis_test_data import test_students
+from app.routers import admin_crud
 from app.routers import login
 from app.routers import statistics
 from app.routers import token
@@ -32,6 +33,7 @@ app.add_middleware(
 app.include_router(login.router)
 app.include_router(statistics.router)
 app.include_router(token.router)
+app.include_router(admin_crud.router)
 
 
 @app.on_event("startup")
