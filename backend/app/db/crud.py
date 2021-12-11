@@ -4,6 +4,7 @@ from app.db.psql_models import Lecturer
 from app.db.psql_models import Lesson
 from app.db.psql_models import Student
 from app.db.psql_models import StudentClass
+from app.db.psql_models import User
 from sqlmodel import select
 from sqlmodel import Session
 
@@ -173,3 +174,18 @@ def update_attendance_by_id(db: Session, attendance_id: int):
 def delete_attendance_by_id(db: Session, attendance_id: int):
     db.delete(db.get(Attendance, attendance_id))
     db.commit()
+
+
+def create_user(db: Session, user: User):
+    db_user = User(
+            id=user.id,
+            username=user.username,
+            password=user.password,
+            user_type=user.user_type
+
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
