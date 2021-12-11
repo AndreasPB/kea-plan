@@ -188,4 +188,3 @@ def create_user(db: Session, user: User):
     db.commit()
     db.refresh(db_user)
     return db_user
-
