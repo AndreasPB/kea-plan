@@ -1,9 +1,13 @@
 from app.db.psql_models import Attendance
 from app.db.psql_models import Course
+from app.db.psql_models import CourseLessonLink
 from app.db.psql_models import Lecturer
+from app.db.psql_models import LecturerClassLink
 from app.db.psql_models import Lesson
 from app.db.psql_models import Student
+from app.db.psql_models import StudentAttendanceLink
 from app.db.psql_models import StudentClass
+from app.db.psql_models import StudentClassCourseLink
 from app.db.psql_models import User
 from sqlmodel import select
 from sqlmodel import Session
@@ -15,13 +19,7 @@ def get_studentclass_by_id(db: Session, studentclass_id: int):
 
 
 def create_studentclass(db: Session, studentclass: StudentClass):
-    db_studentclass = StudentClass(
-            id=studentclass.id,
-            name=studentclass.name,
-            number_of_students=studentclass.number_of_students,
-            courses=studentclass.courses,
-            lecturers=studentclass.lecturers
-    )
+    db_studentclass = StudentClass(**studentclass.dict())
     db.add(db_studentclass)
     db.commit()
     db.refresh(db_studentclass)
@@ -46,12 +44,7 @@ def get_student_by_id(db: Session, student_id: int):
 
 
 def create_student(db: Session, student: Student):
-    db_student = Student(
-            id=student.id,
-            name=student.name,
-            class_id=student.class_id,
-            attendances=student.attendances
-    )
+    db_student = Student(**student.dict())
     db.add(db_student)
     db.commit()
     db.refresh(db_student)
@@ -73,13 +66,7 @@ def get_course_by_id(db: Session, course_id: int):
 
 
 def create_course(db: Session, course: Course):
-    db_course = Course(
-            id=course.id,
-            name=course.name,
-            category=course.category,
-            student_classes=course.student_classes,
-            lessons=course.lessons
-    )
+    db_course = Course(**course.dict())
     db.add(db_course)
     db.commit()
     db.refresh(db_course)
@@ -101,11 +88,7 @@ def get_lecturer_by_id(db: Session, lecturer_id: int):
 
 
 def create_lecturer(db: Session, lecturer: Lecturer):
-    db_lecturer = Lecturer(
-            id=lecturer.id,
-            name=lecturer.name,
-            student_classes=lecturer.student_classes,
-    )
+    db_lecturer = Lecturer(**lecturer.dict())
     db.add(db_lecturer)
     db.commit()
     db.refresh(db_lecturer)
@@ -127,13 +110,7 @@ def get_lesson_by_id(db: Session, lesson_id: int):
 
 
 def create_lesson(db: Session, lesson: Lesson):
-    db_lesson = Lesson(
-            id=lesson.id,
-            start=lesson.start,
-            duration=lesson.duration,
-            attendance_token=lesson.attendance_token,
-            courses=lesson.courses,
-    )
+    db_lesson = Lesson(**lesson.dict())
     db.add(db_lesson)
     db.commit()
     db.refresh(db_lesson)
@@ -151,16 +128,13 @@ def delete_lesson_by_id(db: Session, lesson_id: int):
 
 # Attendance
 def get_attendance_by_id(db: Session, attendance_id: int):
-    return db.get(Attendance, attendance_id)
+    return db.exec(select(Attendance, Lesson)
+                   .join(Lesson)
+                   .where(Attendance.id == attendance_id)).one()
 
 
 def create_attendance(db: Session, attendance: Attendance):
-    db_attendance = Attendance(
-            id=attendance.id,
-            time_of_attendance=attendance.time_of_attendance,
-            lesson_id=attendance.lesson_id,
-            students=attendance.students,
-    )
+    db_attendance = Attendance(**attendance.dict())
     db.add(db_attendance)
     db.commit()
     db.refresh(db_attendance)
@@ -176,15 +150,71 @@ def delete_attendance_by_id(db: Session, attendance_id: int):
     db.commit()
 
 
+# User
 def create_user(db: Session, user: User):
-    db_user = User(
-            id=user.id,
-            username=user.username,
-            password=user.password,
-            user_type=user.user_type
-
-    )
+    db_user = User(**user.dict())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+# LecturerClassLink
+def get_lecturer_studentclass_by_id(db: Session, lecturer_id: int):
+    return db.exec(select(StudentClass)
+                   .join(LecturerClassLink)
+                   .where(Lecturer.id == lecturer_id)).all()
+
+
+def create_lecturer_studentclass(db: Session, lecturer_studentclass: LecturerClassLink):
+    db_lecturer_class = LecturerClassLink(**lecturer_studentclass.dict())
+    db.add(db_lecturer_class)
+    db.commit()
+    db.refresh(db_lecturer_class)
+    return db_lecturer_class
+
+
+# StudentClassCourseLink
+def get_studentclass_course_by_id(db: Session, studentclass_id: int):
+    return db.exec(select(Course)
+                   .join(StudentClassCourseLink)
+                   .where(StudentClass.id == studentclass_id)).all()
+
+
+def create_studentclass_course(db: Session,
+                               studentclass_course: StudentClassCourseLink):
+    db_studentclass_course = StudentClassCourseLink(**studentclass_course.dict())
+    db.add(db_studentclass_course)
+    db.commit()
+    db.refresh(db_studentclass_course)
+    return db_studentclass_course
+
+
+# StudentAttendanceLink
+def get_student_attendances_by_id(db: Session, student_id: int):
+    return db.exec(select(Attendance)
+                   .join(StudentAttendanceLink)
+                   .where(Student.id == student_id)).all()
+
+
+def create_student_attendance(db: Session, student_attendance: StudentAttendanceLink):
+    db_student_attendance = StudentAttendanceLink(**student_attendance.dict())
+    db.add(db_student_attendance)
+    db.commit()
+    db.refresh(db_student_attendance)
+    return db_student_attendance
+
+
+# CourseLessonLink
+def get_course_lessons_by_id(db: Session, course_id: int):
+    return db.exec(select(Lesson)
+                   .join(CourseLessonLink)
+                   .where(Course.id == course_id)).all()
+
+
+def create_course_lesson(db: Session, course_lesson: CourseLessonLink):
+    db_course_lesson = CourseLessonLink(**course_lesson.dict())
+    db.add(db_course_lesson)
+    db.commit()
+    db.refresh(db_course_lesson)
+    return db_course_lesson
