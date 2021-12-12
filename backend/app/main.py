@@ -6,8 +6,18 @@ from app.db.redis import Semester
 from app.db.redis import Student
 from app.db.redis_test_data import test_semesters
 from app.db.redis_test_data import test_students
+from app.routers import attendance
+from app.routers import course
+from app.routers import course_lesson
+from app.routers import lecturer
+from app.routers import lecturer_studentclass
+from app.routers import lesson
 from app.routers import login
 from app.routers import statistics
+from app.routers import student
+from app.routers import student_attendance
+from app.routers import studentclass
+from app.routers import studentclass_course
 from app.routers import token
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
@@ -32,6 +42,16 @@ app.add_middleware(
 app.include_router(login.router)
 app.include_router(statistics.router)
 app.include_router(token.router)
+app.include_router(studentclass.router)
+app.include_router(student.router)
+app.include_router(course.router)
+app.include_router(lecturer.router)
+app.include_router(lesson.router)
+app.include_router(attendance.router)
+app.include_router(course_lesson.router)
+app.include_router(student_attendance.router)
+app.include_router(studentclass_course.router)
+app.include_router(lecturer_studentclass.router)
 
 
 @app.on_event("startup")
