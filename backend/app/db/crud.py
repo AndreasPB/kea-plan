@@ -27,7 +27,7 @@ def create_studentclass(db: Session, studentclass: StudentClass):
 
 
 def update_studentclass_by_id(db: Session, studentclass_id: int):
-    ...
+    raise NotImplementedError("Update student not implemented")
 
 
 def delete_studentclass_by_id(db: Session, studentclass_id: int):
@@ -52,7 +52,7 @@ def create_student(db: Session, student: Student):
 
 
 def update_student_by_id(db: Session, student_id: int):
-    ...
+    raise NotImplementedError("Update student not implemented")
 
 
 def delete_student_by_id(db: Session, student_id: int):
@@ -74,7 +74,7 @@ def create_course(db: Session, course: Course):
 
 
 def update_course_by_id(db: Session, course_id: int):
-    ...
+    raise NotImplementedError("Update course not implemented")
 
 
 def delete_course_by_id(db: Session, course_id: int):
@@ -96,7 +96,7 @@ def create_lecturer(db: Session, lecturer: Lecturer):
 
 
 def update_lecturer_by_id(db: Session, lecturer_id: int):
-    ...
+    raise NotImplementedError("Update lecturer not implemented")
 
 
 def delete_lecturer_by_id(db: Session, lecturer_id: int):
@@ -118,7 +118,7 @@ def create_lesson(db: Session, lesson: Lesson):
 
 
 def update_lesson_by_id(db: Session, lesson_id: int):
-    ...
+    raise NotImplementedError("Update lesson not implemented")
 
 
 def delete_lesson_by_id(db: Session, lesson_id: int):
@@ -142,7 +142,7 @@ def create_attendance(db: Session, attendance: Attendance):
 
 
 def update_attendance_by_id(db: Session, attendance_id: int):
-    ...
+    raise NotImplementedError("Update attendance not implemented")
 
 
 def delete_attendance_by_id(db: Session, attendance_id: int):
