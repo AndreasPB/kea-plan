@@ -2,5 +2,7 @@ python-multipart
 sqlmodel
 psycopg2-binary
 pytest
+pytest-cov
+codecov
 requests
 pydantic-aioredis
