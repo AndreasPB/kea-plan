@@ -1,7 +1,7 @@
-name: Run npm Lint & Svelte Check
+name: Lint frontend
 on: [push]
 jobs:
-  Run-npm-Lint-and-Svelte-Check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
