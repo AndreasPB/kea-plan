@@ -1,4 +1,5 @@
 from app.db.crud import create_student_attendance
+from app.db.crud import get_student_attendances
 from app.db.crud import get_student_attendances_by_id
 from app.db.psql import get_session
 from app.db.psql_models import StudentAttendanceLink
@@ -22,6 +23,11 @@ async def read_specific_student_attendance(
     if db_student_attendance:
         return db_student_attendance
     raise HTTPException(status_code=404, detail="student attendance not found")
+
+
+@router.get("/")
+async def read_all_student_attendances(db: Session = Depends(get_session)):
+    return get_student_attendances(db=db)
 
 
 @router.post("/")
