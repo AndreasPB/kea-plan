@@ -1,3 +1,5 @@
+import asyncio
+
 from app.db.psql_test_data import setup_psql_test_attendances
 from app.db.psql_test_data import setup_psql_test_data
 from app.db.psql_test_data import setup_psql_test_links
@@ -15,6 +17,7 @@ async def create_test_psql():
     setup_psql_test_data()
     setup_psql_test_attendances()
     setup_psql_test_links()
+    await asyncio.sleep(1)
 
 
 @router.delete("/psql")
