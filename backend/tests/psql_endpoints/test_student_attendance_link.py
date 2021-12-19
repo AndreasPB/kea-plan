@@ -1,16 +1,8 @@
-import pytest
 from app.db.psql_models import StudentAttendanceLink
 from app.main import app
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
-
-
-@pytest.fixture()
-def setup_db():
-    client.post("/test/psql")
-    yield
-    client.delete("/test/psql")
 
 
 def test_get_student_attendance_link():

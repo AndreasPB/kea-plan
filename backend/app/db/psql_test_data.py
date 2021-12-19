@@ -223,103 +223,124 @@ test_course_lesson_links = [
 ]
 
 
-def setup_psql_test_data():
-    session = Session(engine)
+def setup_psql_test_data() -> bool:
+    try:
+        with Session(engine) as session:
+            if not get_student_by_id(session, 1):
+                session.add_all(test_students)
 
-    if not get_student_by_id(session, 1):
-        session.add_all(test_students)
+            if not get_studentclass_by_id(session, 1):
+                session.add_all(test_studentclasses)
 
-    if not get_studentclass_by_id(session, 1):
-        session.add_all(test_studentclasses)
+            if not get_course_by_id(session, 1):
+                session.add_all(test_courses)
 
-    if not get_course_by_id(session, 1):
-        session.add_all(test_courses)
+            if not get_lecturer_by_id(session, 1):
+                session.add_all(test_lecturers)
 
-    if not get_lecturer_by_id(session, 1):
-        session.add_all(test_lecturers)
+            if not get_lesson_by_id(session, 1):
+                session.add_all(test_lessons)
 
-    if not get_lesson_by_id(session, 1):
-        session.add_all(test_lessons)
+            session.commit()
+    except Exception as e:
+        print(e)
+        return False
 
-    session.commit()
-
-
-def setup_psql_test_attendances():
-    session = Session(engine)
-
-    if not get_attendance_by_id(session, 1):
-        session.add_all(test_attendances)
-
-    session.commit()
+    return True
 
 
-def setup_psql_test_links():
-    session = Session(engine)
+def setup_psql_test_attendances() -> bool:
+    try:
+        with Session(engine) as session:
+            if not get_attendance_by_id(session, 1):
+                session.add_all(test_attendances)
 
-    if not get_lecturer_studentclass_by_id(db=session, lecturer_id=1):
-        session.add_all(test_lecturer_class_links)
+            session.commit()
+    except Exception as e:
+        print(e)
+        return False
 
-    if not get_studentclass_course_by_id(db=session, studentclass_id=1):
-        session.add_all(test_studentclass_course_links)
-
-    if not get_student_attendances_by_id(db=session, student_id=1):
-        session.add_all(test_student_attendance_links)
-
-    if not get_course_lessons_by_id(db=session, course_id=1):
-        session.add_all(test_course_lesson_links)
-
-    session.commit()
+    return True
 
 
-def teardown_psql():
-    with Session(engine) as session:
-        lecturer_class_links = get_lecturer_classes(session)
-        studentclass_course_links = get_studentclass_courses(session)
-        student_attendance_links = get_student_attendances(session)
-        course_lesson_links = get_course_lessons(session)
+def setup_psql_test_links() -> bool:
+    try:
+        with Session(engine) as session:
+            if not get_lecturer_studentclass_by_id(db=session, lecturer_id=1):
+                session.add_all(test_lecturer_class_links)
 
-        for lecturer_class in lecturer_class_links:
-            session.delete(lecturer_class)
+            if not get_studentclass_course_by_id(db=session, studentclass_id=1):
+                session.add_all(test_studentclass_course_links)
 
-        for studentclass_course in studentclass_course_links:
-            session.delete(studentclass_course)
+            if not get_student_attendances_by_id(db=session, student_id=1):
+                session.add_all(test_student_attendance_links)
 
-        for student_attendance in student_attendance_links:
-            session.delete(student_attendance)
+            if not get_course_lessons_by_id(db=session, course_id=1):
+                session.add_all(test_course_lesson_links)
 
-        for course_lesson in course_lesson_links:
-            session.delete(course_lesson)
+            session.commit()
+    except Exception as e:
+        print(e)
+        return False
 
-        session.commit()
+    return True
 
-    with Session(engine) as session:
-        attendances = get_attendances(session)
 
-        for attendance in attendances:
-            session.delete(attendance)
+def teardown_psql() -> bool:
+    try:
+        with Session(engine) as session:
+            lecturer_class_links = get_lecturer_classes(session)
+            studentclass_course_links = get_studentclass_courses(session)
+            student_attendance_links = get_student_attendances(session)
+            course_lesson_links = get_course_lessons(session)
 
-        session.commit()
+            for lecturer_class in lecturer_class_links:
+                session.delete(lecturer_class)
 
-    with Session(engine) as session:
-        students = get_students(session)
-        studentclasses = get_studentclasses(session)
-        courses = get_courses(session)
-        lecturers = get_lecturers(session)
-        lessons = get_lessons(session)
+            for studentclass_course in studentclass_course_links:
+                session.delete(studentclass_course)
 
-        for student in students:
-            session.delete(student)
+            for student_attendance in student_attendance_links:
+                session.delete(student_attendance)
 
-        for studentclass in studentclasses:
-            session.delete(studentclass)
+            for course_lesson in course_lesson_links:
+                session.delete(course_lesson)
 
-        for course in courses:
-            session.delete(course)
+            session.commit()
 
-        for lecturer in lecturers:
-            session.delete(lecturer)
+        with Session(engine) as session:
+            attendances = get_attendances(session)
 
-        for lesson in lessons:
-            session.delete(lesson)
+            for attendance in attendances:
+                session.delete(attendance)
 
-        session.commit()
+            session.commit()
+
+        with Session(engine) as session:
+            students = get_students(session)
+            studentclasses = get_studentclasses(session)
+            courses = get_courses(session)
+            lecturers = get_lecturers(session)
+            lessons = get_lessons(session)
+
+            for student in students:
+                session.delete(student)
+
+            for studentclass in studentclasses:
+                session.delete(studentclass)
+
+            for course in courses:
+                session.delete(course)
+
+            for lecturer in lecturers:
+                session.delete(lecturer)
+
+            for lesson in lessons:
+                session.delete(lesson)
+
+            session.commit()
+    except Exception as e:
+        print(e)
+        return False
+
+    return True

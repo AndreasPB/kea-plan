@@ -6,13 +6,6 @@ from fastapi.testclient import TestClient
 client = TestClient(app)
 
 
-@pytest.fixture()
-def setup_db():
-    client.post("/test/psql")
-    yield
-    client.delete("/test/psql")
-
-
 def test_get_studentclass():
     response = client.get("/studentclass/1")
     assert response.status_code == 200
