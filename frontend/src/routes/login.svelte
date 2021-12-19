@@ -45,6 +45,7 @@
         type="text"
         placeholder="username"
         class="input"
+        id="username"
         bind:value={username}
       />
       <label class="label">
@@ -54,14 +55,19 @@
         bind:value={password}
         type="password"
         placeholder="password"
+        id="password"
         class="w-full input"
       />
     </div>
     <div class="flex justify-center pt-5">
       {#if username && password}
-        <button class="btn btn-primary" type="submit">Sign in</button>
+        <button class="btn btn-primary" id="signin" type="submit"
+          >Sign in</button
+        >
       {:else}
-        <button class="btn btn-primary" disabled={true}>Sign in</button>
+        <button class="btn btn-primary" id="signin" disabled={true}
+          >Sign in</button
+        >
       {/if}
     </div>
   </form>
@@ -83,7 +89,7 @@
             d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
           />
         </svg>
-        <label>Incorrect username or password</label>
+        <label id="errorLabel">Incorrect username or password</label>
       </div>
     </div>
   </div>

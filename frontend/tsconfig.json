@@ -28,5 +28,11 @@
     },
     "types": ["jest"]
   },
-  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    "src/e2e/interface_tests.cjs"
+  ]
 }
