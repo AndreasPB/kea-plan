@@ -1,4 +1,5 @@
 from app.db.crud import create_lecturer_studentclass
+from app.db.crud import get_lecturer_classes
 from app.db.crud import get_lecturer_studentclass_by_id
 from app.db.psql import get_session
 from app.db.psql_models import LecturerClassLink
@@ -24,6 +25,11 @@ async def read_specific_lecturer_studentclass(
     if db_lecturer_studentclass:
         return db_lecturer_studentclass
     raise HTTPException(status_code=404, detail="Lecturer StudentClass not found")
+
+
+@router.get("/")
+async def read_all_lecturer_studentclass(db: Session = Depends(get_session)):
+    return get_lecturer_classes(db=db)
 
 
 @router.post("/")

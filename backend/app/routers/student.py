@@ -1,6 +1,7 @@
 from app.db.crud import create_student
 from app.db.crud import delete_student_by_id
 from app.db.crud import get_student_by_id
+from app.db.crud import get_students
 from app.db.crud import update_student_by_id
 from app.db.psql import get_session
 from app.db.psql_models import Student
@@ -22,6 +23,11 @@ async def read_specific_student(student_id: int, db: Session = Depends(get_sessi
     if db_student:
         return db_student
     raise HTTPException(status_code=404, detail="Student not found")
+
+
+@router.get("/")
+async def read_all_students(db: Session = Depends(get_session)):
+    return get_students(db=db)
 
 
 @router.post("/")

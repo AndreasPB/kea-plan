@@ -18,6 +18,10 @@ def get_studentclass_by_id(db: Session, studentclass_id: int):
     return db.get(StudentClass, studentclass_id)
 
 
+def get_studentclasses(db: Session):
+    return db.exec(select(StudentClass)).all()
+
+
 def create_studentclass(db: Session, studentclass: StudentClass):
     db_studentclass = StudentClass(**studentclass.dict())
     db.add(db_studentclass)
@@ -36,11 +40,15 @@ def delete_studentclass_by_id(db: Session, studentclass_id: int):
 
 
 # Student
-
 def get_student_by_id(db: Session, student_id: int):
-    return db.exec(select(Student, StudentClass)
-                   .join(StudentClass)
-                   .where(Student.id == student_id)).one()
+    # return db.exec(select(Student, StudentClass)
+    #                .join(StudentClass)
+    #                .where(Student.id == student_id)).one()
+    return db.get(Student, student_id)
+
+
+def get_students(db: Session):
+    return db.exec(select(Student)).all()
 
 
 def create_student(db: Session, student: Student):
@@ -65,6 +73,10 @@ def get_course_by_id(db: Session, course_id: int):
     return db.get(Course, course_id)
 
 
+def get_courses(db: Session):
+    return db.exec(select(Course)).all()
+
+
 def create_course(db: Session, course: Course):
     db_course = Course(**course.dict())
     db.add(db_course)
@@ -85,6 +97,10 @@ def delete_course_by_id(db: Session, course_id: int):
 # Lecturer
 def get_lecturer_by_id(db: Session, lecturer_id: int):
     return db.get(Lecturer, lecturer_id)
+
+
+def get_lecturers(db: Session):
+    return db.exec(select(Lecturer)).all()
 
 
 def create_lecturer(db: Session, lecturer: Lecturer):
@@ -109,6 +125,10 @@ def get_lesson_by_id(db: Session, lesson_id: int):
     return db.get(Lesson, lesson_id)
 
 
+def get_lessons(db: Session):
+    return db.exec(select(Lesson)).all()
+
+
 def create_lesson(db: Session, lesson: Lesson):
     db_lesson = Lesson(**lesson.dict())
     db.add(db_lesson)
@@ -128,9 +148,14 @@ def delete_lesson_by_id(db: Session, lesson_id: int):
 
 # Attendance
 def get_attendance_by_id(db: Session, attendance_id: int):
-    return db.exec(select(Attendance, Lesson)
-                   .join(Lesson)
-                   .where(Attendance.id == attendance_id)).one()
+    # return db.exec(select(Attendance, Lesson)
+    #                .join(Lesson)
+    #                .where(Attendance.id == attendance_id)).one()
+    return db.get(Attendance, attendance_id)
+
+
+def get_attendances(db: Session):
+    return db.exec(select(Attendance)).all()
 
 
 def create_attendance(db: Session, attendance: Attendance):
@@ -159,11 +184,19 @@ def create_user(db: Session, user: User):
     return db_user
 
 
+def get_users(db: Session):
+    return db.exec(select(User)).all()
+
+
 # LecturerClassLink
 def get_lecturer_studentclass_by_id(db: Session, lecturer_id: int):
-    return db.exec(select(StudentClass)
-                   .join(LecturerClassLink)
-                   .where(Lecturer.id == lecturer_id)).all()
+    return db.exec(
+        select(StudentClass).join(LecturerClassLink).where(Lecturer.id == lecturer_id)
+    ).all()
+
+
+def get_lecturer_classes(db: Session):
+    return db.exec(select(LecturerClassLink)).all()
 
 
 def create_lecturer_studentclass(db: Session, lecturer_studentclass: LecturerClassLink):
@@ -176,13 +209,20 @@ def create_lecturer_studentclass(db: Session, lecturer_studentclass: LecturerCla
 
 # StudentClassCourseLink
 def get_studentclass_course_by_id(db: Session, studentclass_id: int):
-    return db.exec(select(Course)
-                   .join(StudentClassCourseLink)
-                   .where(StudentClass.id == studentclass_id)).all()
+    return db.exec(
+        select(Course)
+        .join(StudentClassCourseLink)
+        .where(StudentClass.id == studentclass_id)
+    ).all()
 
 
-def create_studentclass_course(db: Session,
-                               studentclass_course: StudentClassCourseLink):
+def get_studentclass_courses(db: Session):
+    return db.exec(select(StudentClassCourseLink)).all()
+
+
+def create_studentclass_course(
+    db: Session, studentclass_course: StudentClassCourseLink
+):
     db_studentclass_course = StudentClassCourseLink(**studentclass_course.dict())
     db.add(db_studentclass_course)
     db.commit()
@@ -192,9 +232,13 @@ def create_studentclass_course(db: Session,
 
 # StudentAttendanceLink
 def get_student_attendances_by_id(db: Session, student_id: int):
-    return db.exec(select(Attendance)
-                   .join(StudentAttendanceLink)
-                   .where(Student.id == student_id)).all()
+    return db.exec(
+        select(Attendance).join(StudentAttendanceLink).where(Student.id == student_id)
+    ).all()
+
+
+def get_student_attendances(db: Session):
+    return db.exec(select(StudentAttendanceLink)).all()
 
 
 def create_student_attendance(db: Session, student_attendance: StudentAttendanceLink):
@@ -207,9 +251,13 @@ def create_student_attendance(db: Session, student_attendance: StudentAttendance
 
 # CourseLessonLink
 def get_course_lessons_by_id(db: Session, course_id: int):
-    return db.exec(select(Lesson)
-                   .join(CourseLessonLink)
-                   .where(Course.id == course_id)).all()
+    return db.exec(
+        select(Lesson).join(CourseLessonLink).where(Course.id == course_id)
+    ).all()
+
+
+def get_course_lessons(db: Session):
+    return db.exec(select(CourseLessonLink)).all()
 
 
 def create_course_lesson(db: Session, course_lesson: CourseLessonLink):

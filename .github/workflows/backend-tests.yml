@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build
+        run: docker-compose up --build -d backend
       - name: Run tests
         run: docker-compose run backend pytest -v --cov=app --cov-report=xml ../tests
       - name: Upload coverage to Codecov

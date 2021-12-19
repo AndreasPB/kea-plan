@@ -2,6 +2,9 @@ import asyncio
 
 from app.db.psql import engine
 from app.db.psql_models import SQLModel
+from app.db.psql_test_data import setup_psql_test_attendances
+from app.db.psql_test_data import setup_psql_test_data
+from app.db.psql_test_data import setup_psql_test_links
 from app.db.redis import Semester
 from app.db.redis import Student
 from app.db.redis_test_data import test_semesters
@@ -18,6 +21,7 @@ from app.routers import student
 from app.routers import student_attendance
 from app.routers import studentclass
 from app.routers import studentclass_course
+from app.routers import test_psql
 from app.routers import token
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
@@ -52,6 +56,7 @@ app.include_router(course_lesson.router)
 app.include_router(student_attendance.router)
 app.include_router(studentclass_course.router)
 app.include_router(lecturer_studentclass.router)
+app.include_router(test_psql.router)
 
 
 @app.on_event("startup")
@@ -60,9 +65,14 @@ async def init_db():
         SQLModel.metadata.create_all(engine)
     except Exception as e:
         print(e)
-        print("Will try again in 2 seconds...")
-        await asyncio.sleep(2)
+        print("Will try again in 4 seconds...")
+        await asyncio.sleep(4)
         SQLModel.metadata.create_all(engine)
+    finally:
+        setup_psql_test_data()
+        setup_psql_test_attendances()
+        setup_psql_test_links()
+        print("PostgreSQL database initialized")
 
 
 # TODO: Replace when done testing

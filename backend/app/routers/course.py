@@ -1,6 +1,7 @@
 from app.db.crud import create_course
 from app.db.crud import delete_course_by_id
 from app.db.crud import get_course_by_id
+from app.db.crud import get_courses
 from app.db.crud import update_course_by_id
 from app.db.psql import get_session
 from app.db.psql_models import Course
@@ -22,6 +23,11 @@ async def read_specific_course(course_id: int, db: Session = Depends(get_session
     if db_course:
         return db_course
     raise HTTPException(status_code=404, detail="Course not found")
+
+
+@router.get("/")
+async def read_all_courses(db: Session = Depends(get_session)):
+    return get_courses(db=db)
 
 
 @router.post("/")

@@ -1,6 +1,7 @@
 from app.db.crud import create_lesson
 from app.db.crud import delete_lesson_by_id
 from app.db.crud import get_lesson_by_id
+from app.db.crud import get_lessons
 from app.db.crud import update_lesson_by_id
 from app.db.psql import get_session
 from app.db.psql_models import Lesson
@@ -22,6 +23,11 @@ async def read_specific_lesson(lesson_id: int, db: Session = Depends(get_session
     if db_lesson:
         return db_lesson
     raise HTTPException(status_code=404, detail="Lesson not found")
+
+
+@router.get("/")
+async def read_all_lessons(db: Session = Depends(get_session)):
+    return get_lessons(db=db)
 
 
 @router.post("/")

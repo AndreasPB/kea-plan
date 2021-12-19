@@ -1,6 +1,7 @@
 from app.db.crud import create_lecturer
 from app.db.crud import delete_lecturer_by_id
 from app.db.crud import get_lecturer_by_id
+from app.db.crud import get_lecturers
 from app.db.crud import update_lecturer_by_id
 from app.db.psql import get_session
 from app.db.psql_models import Lecturer
@@ -22,6 +23,11 @@ async def read_specific_lecturer(lecturer_id: int, db: Session = Depends(get_ses
     if db_lecturer:
         return db_lecturer
     raise HTTPException(status_code=404, detail="Lecturer not found")
+
+
+@router.get("/")
+async def read_all_lecturers(db: Session = Depends(get_session)):
+    return get_lecturers(db=db)
 
 
 @router.post("/")

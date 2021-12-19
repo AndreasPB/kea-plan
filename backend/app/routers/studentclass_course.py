@@ -1,5 +1,6 @@
 from app.db.crud import create_studentclass_course
 from app.db.crud import get_studentclass_course_by_id
+from app.db.crud import get_studentclass_courses
 from app.db.psql import get_session
 from app.db.psql_models import StudentClassCourseLink
 from fastapi import APIRouter
@@ -24,6 +25,11 @@ async def read_specific_studentclass_course(
     if db_studentclass_course:
         return db_studentclass_course
     raise HTTPException(status_code=404, detail="studentclass course not found")
+
+
+@router.get("/")
+async def read_all_studentclass_courses(db: Session = Depends(get_session)):
+    return get_studentclass_courses(db=db)
 
 
 @router.post("/")
