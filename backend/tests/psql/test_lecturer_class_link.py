@@ -1,16 +1,11 @@
-import pytest
+from app.db.crud import get_lecturer_classes
+from app.db.psql import engine
 from app.db.psql_models import LecturerClassLink
 from app.main import app
 from fastapi.testclient import TestClient
+from sqlmodel import Session
 
 client = TestClient(app)
-
-
-@pytest.fixture()
-def setup_db():
-    client.post("/test/psql")
-    yield
-    client.delete("/test/psql")
 
 
 def test_get_lecturer_class_link():
@@ -25,3 +20,9 @@ def test_get_lecturer_class_links():
     data = response.json()
     for lecturer_class in data:
         assert LecturerClassLink(**lecturer_class)
+
+    with Session(engine) as session:
+        db_data = get_lecturer_classes(session)
+        assert db_data == [
+            LecturerClassLink(**lecturer_class) for lecturer_class in data
+        ]

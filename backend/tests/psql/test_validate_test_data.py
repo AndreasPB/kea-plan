@@ -15,7 +15,7 @@ client = TestClient(app)
 def setup_db():
     client.post("/test/psql")
     yield
-    time.sleep(2)
+    time.sleep(5)
 
 
 def test_setup_psql_test_data():

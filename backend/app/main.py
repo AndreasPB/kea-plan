@@ -65,8 +65,8 @@ async def init_db():
         SQLModel.metadata.create_all(engine)
     except Exception as e:
         print(e)
-        print("Will try again in 2 seconds...")
-        await asyncio.sleep(3)
+        print("Will try again in 4 seconds...")
+        await asyncio.sleep(4)
         SQLModel.metadata.create_all(engine)
     finally:
         setup_psql_test_data()

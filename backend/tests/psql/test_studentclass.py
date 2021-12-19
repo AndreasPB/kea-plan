@@ -1,7 +1,11 @@
 import pytest
+from app.db.crud import get_studentclass_by_id
+from app.db.crud import get_studentclasses
+from app.db.psql import engine
 from app.db.psql_models import StudentClass
 from app.main import app
 from fastapi.testclient import TestClient
+from sqlmodel import Session
 
 client = TestClient(app)
 
@@ -12,6 +16,10 @@ def test_get_studentclass():
 
     data = response.json()
     assert StudentClass(**data)
+
+    with Session(engine) as session:
+        db_data = get_studentclass_by_id(session, 1)
+        assert db_data == StudentClass(**data)
 
 
 def test_get_studentclasses():
@@ -33,3 +41,7 @@ def test_create_studentclass():
 
     data = response.json()
     assert StudentClass(**data)
+
+    with Session(engine) as session:
+        db_data = get_studentclasses(session)
+        assert db_data == [StudentClass(**studentclass) for studentclass in data]
