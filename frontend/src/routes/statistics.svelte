@@ -8,16 +8,16 @@
   const API_URL = "http://localhost:2000"
 
   const fetchStatistics = async () => {
-    switch ($user.userType) {
+    switch ($user.user_type) {
       case "student":
         var studentResponse = await fetch(
-          `${API_URL}/statistics/student/${$user.personId}`
+          `${API_URL}/statistics/student/${$user.person_id}`
         )
         return await studentResponse.json()
 
       case "teacher":
         var teacherResponse = await fetch(
-          `${API_URL}/statistics/semester/${$user.classId}`
+          `${API_URL}/statistics/semester/${$user.class_id}`
         )
         return await teacherResponse.json()
 
@@ -30,7 +30,7 @@
   }
 
   onMount(() => {
-    if (!$user.accessToken) {
+    if (!$user.access_token) {
       location.href = "/login"
     }
   })

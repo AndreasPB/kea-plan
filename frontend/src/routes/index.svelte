@@ -1,11 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte"
   import { user } from "../stores/auth"
-  import { goto } from "$app/navigation/"
 
   onMount(() => {
     if (!$user.access_token) {
-      goto("/login")
+      location.href = "/login"
     }
   })
 </script>
