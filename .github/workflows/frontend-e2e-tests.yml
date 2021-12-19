@@ -10,4 +10,6 @@ jobs:
           node-version: "14"
       - run: cd frontend/ && npm install
       - run: cd frontend/ && npm install selenium-webdriver
-      - run: cd frontend/src/e2e/ && node test.js
+      - run: cd frontend/ && npm install assert
+      - run: docker-compose up --build -d
+      - run: cd frontend/src/e2e/ && node interface_tests.cjs
