@@ -3,28 +3,21 @@
   import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
   import { user } from "../stores/auth.ts"
   import { onMount } from "svelte"
-  import { goto } from "$app/navigation/"
-
-  // TODO: Should be controlled by token/auth system
-  const HARDCODED_ID = 1
-  const HARDCODED_CLASS_ID = 1
-  let HARDCODED_USER_TYPE = "student"
-  HARDCODED_USER_TYPE = "teacher"
 
   // TODO: Should be held as an environment variable
   const API_URL = "http://localhost:2000"
 
   const fetchStatistics = async () => {
-    switch (HARDCODED_USER_TYPE as any) {
+    switch ($user.userType) {
       case "student":
         var studentResponse = await fetch(
-          `${API_URL}/statistics/student/${HARDCODED_ID}`
+          `${API_URL}/statistics/student/${$user.personId}`
         )
         return await studentResponse.json()
 
       case "teacher":
         var teacherResponse = await fetch(
-          `${API_URL}/statistics/semester/${HARDCODED_CLASS_ID}`
+          `${API_URL}/statistics/semester/${$user.classId}`
         )
         return await teacherResponse.json()
 
@@ -37,8 +30,8 @@
   }
 
   onMount(() => {
-    if (!$user.access_token) {
-      goto("/login")
+    if (!$user.accessToken) {
+      location.href = "/login"
     }
   })
 </script>
