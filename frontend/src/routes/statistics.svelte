@@ -1,7 +1,7 @@
 <script lang="ts">
   import StudentStatisticsTable from "../components/student-statistics-table.svelte"
   import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
-  import { user } from "../stores/auth.ts"
+  import { user } from "../stores/auth"
   import { onMount } from "svelte"
 
   // TODO: Should be held as an environment variable

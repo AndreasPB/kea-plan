@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { user } from "../stores/auth.ts"
+  import { user } from "../stores/auth"
 
   let username = ""
   let password = ""
