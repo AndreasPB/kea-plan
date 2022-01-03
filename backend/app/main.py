@@ -143,7 +143,7 @@ class UserInput(BaseModel):
                 status_code=400,
                 detail="Username invalid format - must be at least 6 characters",
             )
-        if len(v) > 45:
+        if len(v) >= 30:
             raise HTTPException(
                 status_code=400,
                 detail="Username invalid format - must be under 30 characters",
@@ -152,15 +152,15 @@ class UserInput(BaseModel):
 
     @validator("password")
     def validate_password_length(cls, v):
-        if len(v) < 2:
+        if len(v) < 1:
             raise HTTPException(
                 status_code=400,
-                detail="Password invalid format - must be at least 5 characters",
+                detail="Password is required",
             )
-        if len(v) > 20:
+        if len(v) >= 20:
             raise HTTPException(
                 status_code=400,
-                detail="Password invalid format - must be under 30 characters",
+                detail="Password invalid format - must be under 20 characters",
             )
         return v
 
