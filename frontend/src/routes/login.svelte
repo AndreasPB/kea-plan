@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { variables } from "../variables"
   let username = ""
   let password = ""
   let error = false
@@ -9,7 +10,7 @@
 
     const payload = `username=${username}&password=${password}`
 
-    await fetch("http://localhost:2000/login/", {
+    await fetch(`${variables.apiPath}/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
