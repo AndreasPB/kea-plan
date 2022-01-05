@@ -20,6 +20,7 @@ from app.db.psql_models import SQLModel
 from app.db.psql_models import Student
 from app.db.psql_models import StudentClass
 from app.db.psql_models import StudentClassCourseLink
+from app.db.psql_models import User
 from sqlmodel import Session
 
 
@@ -182,6 +183,23 @@ test_course_lesson_links = [
     ),
 ]
 
+test_users = [
+    User(
+        username="henrikpoelse@stud.kea.dk",
+        password="123456",
+        user_type="student",
+        student_id=1,
+        student_class_id=1
+    ),
+    User(
+        username="pubae@stud.kea.dk",
+        password="321",
+        user_type="lecturer",
+        lecturer_id=4,
+        student_class_id=2
+    )
+]
+
 
 def setup_psql_test_data() -> bool:
     try:
@@ -238,6 +256,19 @@ def setup_psql_test_links() -> bool:
                 session.add_all(test_course_lesson_links)
 
             session.commit()
+    except Exception as e:
+        print(e)
+        return False
+
+    return True
+
+
+def setup_psql_test_users() -> bool:
+    try:
+        with Session(engine) as session:
+            session.add_all(test_users)
+
+        session.commit()
     except Exception as e:
         print(e)
         return False

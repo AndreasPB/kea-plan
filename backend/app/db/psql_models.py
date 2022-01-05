@@ -104,3 +104,5 @@ class User(SQLModel, table=True):
     user_type: str
 
     student_id: Optional[int] = Field(default=None, foreign_key="student.id")
+    lecturer_id: Optional[int] = Field(default=None, foreign_key="lecturer.id")
+    student_class_id: Optional[int] = Field(default=None, foreign_key="studentclass.id")
