@@ -1,29 +1,25 @@
 <script lang="ts">
   import StudentStatisticsTable from "../components/student-statistics-table.svelte"
-  import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
-
-  // TODO: Should be controlled by token/auth system
-  const HARDCODED_ID = 1
-  const HARDCODED_CLASS_ID = 1
-  let HARDCODED_USER_TYPE = "student"
-  HARDCODED_USER_TYPE = "teacher"
+  import LecturerStatisticsTable from "../components/lecturer-statistics-table.svelte"
+  import { user } from "../stores/auth"
+  import { onMount } from "svelte"
 
   // TODO: Should be held as an environment variable
   const API_URL = "http://localhost:2000"
 
   const fetchStatistics = async () => {
-    switch (HARDCODED_USER_TYPE as any) {
+    switch ($user.user_type) {
       case "student":
         var studentResponse = await fetch(
-          `${API_URL}/statistics/student/${HARDCODED_ID}`
+          `${API_URL}/statistics/student/${$user.person_id}`
         )
         return await studentResponse.json()
 
-      case "teacher":
-        var teacherResponse = await fetch(
-          `${API_URL}/statistics/semester/${HARDCODED_CLASS_ID}`
+      case "lecturer":
+        var lecturerResponse = await fetch(
+          `${API_URL}/statistics/semester/${$user.class_id}`
         )
-        return await teacherResponse.json()
+        return await lecturerResponse.json()
 
       case "admin":
         throw new Error("Admin not yet implemented")
@@ -32,6 +28,12 @@
         throw new Error("Invalid user type")
     }
   }
+
+  onMount(() => {
+    if (!$user.access_token) {
+      location.href = "/login"
+    }
+  })
 </script>
 
 {#await fetchStatistics()}
@@ -40,9 +42,9 @@
   <h1>Welcome to attendance statistics for {statistics.name}</h1>
   <br />
 
-  {#if HARDCODED_USER_TYPE === "student"}
+  {#if $user.user_type === "student"}
     <StudentStatisticsTable {statistics} />
-  {:else if HARDCODED_USER_TYPE === "teacher"}
-    <TeacherStatisticsTable {statistics} />
+  {:else if $user.user_type === "lecturer"}
+    <LecturerStatisticsTable {statistics} />
   {/if}
 {/await}

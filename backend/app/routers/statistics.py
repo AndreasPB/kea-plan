@@ -4,13 +4,15 @@ from app.db.redis_test_data import test_semesters
 from app.db.redis_test_data import test_students
 from fastapi import APIRouter
 from fastapi import HTTPException
-
+from fastapi.security import OAuth2PasswordBearer
 
 router = APIRouter(
     prefix="/statistics",
     tags=["statistics"],
     responses={404: {"description": "Statistic(s) not found"}},
 )
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 # Students

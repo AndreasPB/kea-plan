@@ -3,6 +3,7 @@ from pydantic_aioredis import Model
 
 class StudentCourse(Model):
     """A course as seen from a student"""
+
     id: int
     name: str
     attendance_percentage: int
@@ -22,6 +23,7 @@ class SemesterCourseAttendance(Model):
 
 class SemesterCourse(Model):
     """A course as seen from a class"""
+
     id: int
     name: str
     course_attendance: list[SemesterCourseAttendance]

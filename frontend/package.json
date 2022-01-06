@@ -16,6 +16,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
+    "@macfja/svelte-persistent-store": "^1.2.0",
     "@sveltejs/kit": "next",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/svelte": "^3.0.3",
@@ -74,5 +75,6 @@
       ],
       "@babel/preset-typescript"
     ]
-  }
+  },
+  "dependencies": {}
 }

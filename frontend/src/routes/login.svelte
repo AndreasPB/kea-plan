@@ -1,37 +1,43 @@
 <script lang="ts">
+  import { user } from "../stores/auth"
+
   let username = ""
   let password = ""
   let error = false
   let success = false
 
   const signIn = async () => {
-    let loginStatus = ""
-
     const payload = `username=${username}&password=${password}`
 
-    await fetch("http://localhost:2000/login/", {
+    await fetch("http://localhost:2000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: payload,
-    })
-      .then((response) => response.json())
-      .then((data) => (loginStatus = data.status))
-
-    if (loginStatus === "success") {
-      error = false
-      success = true
-      setTimeout(function () {
-        window.location.href = "/"
-      }, 250)
-    } else {
-      error = true
-      password = ""
-      setTimeout(function () {
+    }).then(function (response) {
+      if (response.status === 200) {
         error = false
-      }, 2500)
-    }
+        success = true
+        response.json().then((data) => {
+          $user.username = data.username
+          $user.full_name = data.full_name
+          $user.access_token = data.access_token
+          $user.user_type = data.user_type
+          $user.person_id = data.person_id
+          $user.class_id = data.class_id
+        })
+        setTimeout(function () {
+          window.location.href = "/"
+        }, 250)
+      } else {
+        error = true
+        password = ""
+        setTimeout(function () {
+          error = false
+        }, 2500)
+      }
+    })
   }
 </script>
 
