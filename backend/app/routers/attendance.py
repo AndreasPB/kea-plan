@@ -39,7 +39,8 @@ async def read_all_attendances_with_lesson_id(
 ):
     if db_attendances := get_attendances_by_lesson_id(db=db, lesson_id=lesson_id):
         return db_attendances
-    raise HTTPException(status_code=404, detail="Lesson_id not found")
+    return []
+    # raise HTTPException(status_code=404, detail="Lesson_id not found")
 
 
 @router.post("/")

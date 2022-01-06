@@ -25,15 +25,6 @@ class StudentClassCourseLink(SQLModel, table=True):
     )
 
 
-class StudentAttendanceLink(SQLModel, table=True):
-    student_id: Optional[int] = Field(
-        default=None, foreign_key="student.id", primary_key=True
-    )
-    attendance_id: Optional[int] = Field(
-        default=None, foreign_key="attendance.id", primary_key=True
-    )
-
-
 class CourseLessonLink(SQLModel, table=True):
     course_id: Optional[int] = Field(
         default=None, foreign_key="course.id", primary_key=True
@@ -62,10 +53,6 @@ class Student(SQLModel, table=True):
     name: str
 
     class_id: Optional[int] = Field(default=None, foreign_key="studentclass.id")
-
-    attendances: List["Attendance"] = Relationship(
-        back_populates="students", link_model=StudentAttendanceLink
-    )
 
 
 class Course(SQLModel, table=True):
@@ -106,11 +93,8 @@ class Attendance(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     time_of_attendance: datetime
 
-    lesson_id: Optional[int] = Field(default=None, foreign_key="lesson.id")
-
-    students: List["Student"] = Relationship(
-        back_populates="attendances", link_model=StudentAttendanceLink
-    )
+    lesson_id: int = Field(foreign_key="lesson.id")
+    student_id: int = Field(foreign_key="student.id")
 
 
 class User(SQLModel, table=True):

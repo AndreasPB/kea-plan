@@ -36,7 +36,19 @@
             </a>
           </li>
           <li>
-            <a class="navbar-item" href="/login" on:click={() => ($user = {})}>
+            <a
+              class="navbar-item"
+              href="/login"
+              on:click={() =>
+                ($user = {
+                  username: null,
+                  full_name: null,
+                  access_token: null,
+                  user_type: null,
+                  person_id: null,
+                  class_id: null,
+                })}
+            >
               <span class="icon">
                 <i class="fas fa-sign-out-alt" />
               </span>

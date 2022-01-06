@@ -14,6 +14,7 @@ client = TestClient(app)
 @pytest.fixture(autouse=True)
 def setup_db():
     client.post("/test/psql")
+    time.sleep(3)
     yield
     time.sleep(5)
 

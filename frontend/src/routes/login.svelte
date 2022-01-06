@@ -51,6 +51,7 @@
 <div class="p-10 card bg-base-200">
   <form on:submit|preventDefault={signIn}>
     <div class="form-control">
+      <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
         <span class="label-text">Username</span>
       </label>
@@ -61,6 +62,7 @@
         id="username"
         bind:value={username}
       />
+      <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
         <span class="label-text">Password</span>
       </label>
@@ -102,6 +104,7 @@
             d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
           />
         </svg>
+        <!-- svelte-ignore a11y-label-has-associated-control -->
         <label id="errorLabel">Incorrect username or password</label>
       </div>
     </div>
@@ -123,6 +126,7 @@
             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
+        <!-- svelte-ignore a11y-label-has-associated-control -->
         <label>Hooray you signed in!</label>
       </div>
     </div>
