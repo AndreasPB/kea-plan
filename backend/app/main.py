@@ -105,15 +105,15 @@ users_db = {
     "henrikpoelse@stud.kea.dk": {
         "username": "henrikpoelse6666",
         "full_name": "John Doe",
-        "password": "123456",
+        "password": "123",
         "user_type": "student",
         "person_id": 1,
         "class_id": 1,
     },
-    "pubae@stud.kea.dk": {
+    "pubae@kea.dk": {
         "username": "pubae1234",
         "full_name": "Bølle Bob",
-        "password": "321",
+        "password": "123",
         "user_type": "lecturer",
         "person_id": 4,
         "class_id": 2,

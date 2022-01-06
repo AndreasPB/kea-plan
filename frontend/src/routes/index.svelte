@@ -14,6 +14,11 @@
   const fetchToken = async () => {
     const tokenResponse = await fetch(`http://localhost:2000/token/generate`)
     token = await tokenResponse.json()
+    try {
+      postLesson(token)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const fetchCourses = async (courseId) => {
@@ -22,9 +27,26 @@
     )
     return await courseResponse.json()
   }
+
+  const postLesson = async (attendance_token: string) => {
+    const res = await fetch("http://localhost:2000/lesson/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        start: Date.now(),
+        duration: 180,
+        attendance_token: attendance_token,
+      }),
+    })
+    const json = await res.json()
+    console.log(JSON.stringify(json))
+    return JSON.stringify(json)
+  }
 </script>
 
-<h1>Welcome to KEAPlan</h1>
+<h1 class="flex justify-center m-10">Welcome to KEAPlan {$user.full_name}</h1>
 
 {#if $user.user_type == "student"}
   <!-- content here -->
@@ -50,9 +72,16 @@
         />
       {/each}
     </div>
+    <div class="flex justify-center btn-group mb-4">
+      {#if chosenCourse}
+        <button class="btn btn-primary" on:click={fetchToken}
+          >Generate token</button
+        >
+      {:else}
+        <h1>Please choose a course to generate attendance token</h1>
+      {/if}
+    </div>
 
-    <button class="btn btn-primary" on:click={fetchToken}>Generate token</button
-    >
     {#if token}
       <h1>{token}</h1>
     {/if}
