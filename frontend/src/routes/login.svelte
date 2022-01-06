@@ -1,5 +1,6 @@
 <script lang="ts">
   import { user } from "../stores/auth"
+  import { onMount } from "svelte"
 
   let username = ""
   let password = ""
@@ -39,6 +40,12 @@
       }
     })
   }
+
+  onMount(() => {
+    if ($user.access_token) {
+      location.href = "/"
+    }
+  })
 </script>
 
 <div class="p-10 card bg-base-200">

@@ -1,6 +1,7 @@
 from app.db.crud import create_lesson
 from app.db.crud import delete_lesson_by_id
 from app.db.crud import get_lesson_by_id
+from app.db.crud import get_lesson_by_token
 from app.db.crud import get_lessons
 from app.db.crud import update_lesson_by_id
 from app.db.psql import get_session
@@ -23,6 +24,13 @@ async def read_specific_lesson(lesson_id: int, db: Session = Depends(get_session
     if db_lesson:
         return db_lesson
     raise HTTPException(status_code=404, detail="Lesson not found")
+
+
+@router.get("/token/{token}")
+async def read_lesson_from_token(token: str, db: Session = Depends(get_session)):
+    if db_token := get_lesson_by_token(db=db, token=token):
+        return db_token
+    raise HTTPException(status_code=404, detail="Token not found")
 
 
 @router.get("/")

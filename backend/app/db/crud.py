@@ -125,6 +125,12 @@ def get_lesson_by_id(db: Session, lesson_id: int):
     return db.get(Lesson, lesson_id)
 
 
+def get_lesson_by_token(db: Session, token: int):
+    with db:
+        statement = select(Lesson).where(Lesson.attendance_token == token)
+        return db.exec(statement).first()
+
+
 def get_lessons(db: Session):
     return db.exec(select(Lesson)).all()
 
@@ -156,6 +162,12 @@ def get_attendance_by_id(db: Session, attendance_id: int):
 
 def get_attendances(db: Session):
     return db.exec(select(Attendance)).all()
+
+
+def get_attendances_by_lesson_id(db: Session, lesson_id: int):
+    with db:
+        statement = select(Attendance).where(Attendance.lesson_id == lesson_id)
+        return db.exec(statement).all()
 
 
 def create_attendance(db: Session, attendance: Attendance):

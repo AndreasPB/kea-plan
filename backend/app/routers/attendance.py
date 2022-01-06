@@ -2,6 +2,7 @@ from app.db.crud import create_attendance
 from app.db.crud import delete_attendance_by_id
 from app.db.crud import get_attendance_by_id
 from app.db.crud import get_attendances
+from app.db.crud import get_attendances_by_lesson_id
 from app.db.crud import update_attendance_by_id
 from app.db.psql import get_session
 from app.db.psql_models import Attendance
@@ -30,6 +31,15 @@ async def read_specific_attendance(
 @router.get("/")
 async def read_all_attendances(db: Session = Depends(get_session)):
     return get_attendances(db=db)
+
+
+@router.get("/lesson/{lesson_id}")
+async def read_all_attendances_with_lesson_id(
+    lesson_id: int, db: Session = Depends(get_session)
+):
+    if db_attendances := get_attendances_by_lesson_id(db=db, lesson_id=lesson_id):
+        return db_attendances
+    raise HTTPException(status_code=404, detail="Lesson_id not found")
 
 
 @router.post("/")
