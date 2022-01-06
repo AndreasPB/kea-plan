@@ -1,6 +1,6 @@
 <script lang="ts">
   import StudentStatisticsTable from "../components/student-statistics-table.svelte"
-  import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
+  import LecturerStatisticsTable from "../components/lecturer-statistics-table.svelte"
   import { user } from "../stores/auth"
   import { onMount } from "svelte"
 
@@ -15,11 +15,11 @@
         )
         return await studentResponse.json()
 
-      case "teacher":
-        var teacherResponse = await fetch(
+      case "lecturer":
+        var lecturerResponse = await fetch(
           `${API_URL}/statistics/semester/${$user.class_id}`
         )
-        return await teacherResponse.json()
+        return await lecturerResponse.json()
 
       case "admin":
         throw new Error("Admin not yet implemented")
@@ -44,7 +44,7 @@
 
   {#if $user.user_type === "student"}
     <StudentStatisticsTable {statistics} />
-  {:else if $user.user_type === "teacher"}
-    <TeacherStatisticsTable {statistics} />
+  {:else if $user.user_type === "lecturer"}
+    <LecturerStatisticsTable {statistics} />
   {/if}
 {/await}

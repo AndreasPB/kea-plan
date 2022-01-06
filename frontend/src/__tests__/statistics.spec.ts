@@ -4,7 +4,7 @@ import { render } from "@testing-library/svelte"
 
 import Statistics from "../routes/statistics.svelte"
 import StudentStatisticsTable from "../components/student-statistics-table.svelte"
-import TeacherStatisticsTable from "../components/teacher-statistics-table.svelte"
+import LecturerStatisticsTable from "../components/lecturer-statistics-table.svelte"
 
 const studentTableData = {
   id: 1,
@@ -28,7 +28,7 @@ const studentTableData = {
   ],
 }
 
-const teacherTableData = {
+const lecturerTableData = {
   id: 1,
   name: "Class 1",
   courses: [
@@ -97,11 +97,11 @@ describe("Statistics", () => {
     expect(table.getByText("90%"))
   })
 
-  it("should build a table with teacher/semester data", async () => {
+  it("should build a table with lecturer/semester data", async () => {
     const { getByText, getAllByText, queryByText } = render(
-      TeacherStatisticsTable,
+      LecturerStatisticsTable,
       {
-        statistics: teacherTableData,
+        statistics: lecturerTableData,
       }
     )
 
@@ -118,9 +118,9 @@ describe("Statistics", () => {
 
   it("should be able to build different tables dependant on the radio options", async () => {
     const { getByText, getAllByText, queryByText } = render(
-      TeacherStatisticsTable,
+      LecturerStatisticsTable,
       {
-        statistics: teacherTableData,
+        statistics: lecturerTableData,
         chosenCourse: "English",
       }
     )
