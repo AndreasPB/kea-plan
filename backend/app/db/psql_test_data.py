@@ -9,6 +9,11 @@ from app.db.crud import get_lesson_by_id
 from app.db.crud import get_student_by_id
 from app.db.crud import get_studentclass_by_id
 from app.db.crud import get_studentclass_course_by_id
+from app.db.crud import get_studentclass_courses
+from app.db.crud import get_studentclasses
+from app.db.crud import get_students
+from app.db.crud import get_user_by_id
+from app.db.crud import get_users
 from app.db.psql import engine
 from app.db.psql_models import Attendance
 from app.db.psql_models import Course
@@ -180,23 +185,27 @@ test_course_lesson_links = [
     CourseLessonLink(
         course_id=3,
         lesson_id=3,
-    ),
+    )
 ]
 
 test_users = [
     User(
         username="henrikpoelse@stud.kea.dk",
-        password="123456",
+        password="123",
+        full_name="John Hest",
         user_type="student",
         student_id=1,
-        student_class_id=1
+        lecturer_id=None,
+        class_id=1
     ),
     User(
         username="pubae@stud.kea.dk",
-        password="321",
-        user_type="lecturer",
-        lecturer_id=4,
-        student_class_id=2
+        password="123",
+        full_name="Peter Lakrids",
+        user_type="student",
+        student_id=None,
+        lecturer_id=2,
+        class_id=2
     )
 ]
 
@@ -220,6 +229,9 @@ def setup_psql_test_data() -> bool:
 
             if not get_lesson_by_id(session, 1):
                 session.add_all(test_lessons)
+
+            if not get_user_by_id(session, 1):
+                session.add_all(test_users)
 
             session.commit()
     except Exception as e:
