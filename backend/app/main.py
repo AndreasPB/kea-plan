@@ -3,6 +3,7 @@ import random
 import string
 from typing import Optional
 
+from app.config import get_settings
 from app.db.psql import engine
 from app.db.psql_models import SQLModel
 from app.db.psql_test_data import setup_psql_test_attendances
@@ -35,10 +36,11 @@ from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+keaplan_url = get_settings().keaplan_url
 origins = [
-    "http://localhost:2000",
-    "http://localhost:3000",
-    "http://localhost:8080",
+    f"http://{keaplan_url}:2000",
+    f"http://{keaplan_url}:3000",
+    f"http://{keaplan_url}:8080",
 ]
 
 app.add_middleware(

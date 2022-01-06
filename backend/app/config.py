@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     matching the variable names below
     """
     environment: Environment = Environment.DEVELOPMENT
+    keaplan_url: str = "localhost"
     token_size: int = 4
     token_chars: str = string.ascii_uppercase + string.digits
 

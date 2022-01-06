@@ -1,6 +1,6 @@
 import random
-import string
 
+from app.config import get_settings
 from fastapi import APIRouter
 
 
@@ -9,10 +9,10 @@ router = APIRouter(
     tags=["token"],
 )
 
-TOKEN_SIZE = 4
-TOKEN_CHARS = string.ascii_uppercase + string.digits
-
 
 @router.get("/generate")
 async def generate_token():
-    return "".join(random.choice(TOKEN_CHARS) for _ in range(TOKEN_SIZE))
+    return "".join(
+        random.choice(get_settings().token_chars)
+        for _ in range(get_settings().token_size)
+    )
