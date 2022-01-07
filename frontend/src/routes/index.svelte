@@ -1,4 +1,6 @@
 <script lang="ts">
+  import SuccessErrorMessage from "../components/success-error-message.svelte"
+  import LecturerAttendanceTable from "../components/lecturer-attendance-table.svelte"
   import { onMount } from "svelte"
   import { user } from "../stores/auth"
 
@@ -106,13 +108,6 @@
     lessonAttendance = await attendanceResponse.json()
     console.log(lessonAttendance)
   }
-
-  const timeConverter = (time: Date) => {
-    return new Date(time).toLocaleTimeString("en", {
-      timeStyle: "short",
-      hour12: false,
-    })
-  }
 </script>
 
 <h1 class="flex justify-center m-10">Welcome to KEAPlan {$user.full_name}</h1>
@@ -149,57 +144,12 @@
       </form>
     </div>
   </div>
-
-  {#if error}
-    <div class="flex justify-center">
-      <div class="pt-5 max-w-md">
-        <div class="alert alert-error">
-          <div class="flex-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              class="w-6 h-6 mx-2 stroke-current"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-              />
-            </svg>
-            <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label id="errorLabel">Unknown token</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  {:else if success}
-    <!-- Center my tailwind div -->
-    <div class="flex justify-center">
-      <div class="pt-5 max-w-md ">
-        <div class="alert alert-success">
-          <div class="flex-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              class="w-6 h-6 mx-2 stroke-current"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label>Hooray you are registerd preset to the lesson!</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  {/if}
+  <SuccessErrorMessage
+    {success}
+    successMessage="Hooray you are registered preset to the lesson!"
+    {error}
+    errorMessage="Unknown token"
+  />
 {:else if $user.user_type == "lecturer"}
   {#await fetchCourses($user.class_id)}
     <p>Loading courses...</p>
@@ -226,38 +176,8 @@
       {/if}
     </div>
   {/await}
-
-  {#if token}
-    <div class="flex justify-center pt-5">
-      <h1 class="mb-5 text-5xl font-bold">{token}</h1>
-    </div>
-    {#if lessonAttendance && lessonAttendance.length > 0}
-      <div class="overflow-x-auto pt-5">
-        <table class="table w-full">
-          <thead>
-            <tr>
-              <th />
-              <th>Name</th>
-              <th>Attendance time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- For hver attendance der matcher lesson id for token -->
-            {#each lessonAttendance as attendance}
-              <tr>
-                <td>{attendance.Attendance.student_id}</td>
-                <td>{attendance.name}</td>
-                <td
-                  >{timeConverter(attendance.Attendance.time_of_attendance)}</td
-                >
-              </tr>
-            {/each}
-          </tbody>
-        </table>
-      </div>
-    {/if}
-  {/if}
+  <LecturerAttendanceTable {token} {lessonAttendance} />
 {:else if $user.user_type == "admin"}
   <!-- else content here -->
   <h1>I AM ADMIN</h1>
-{/if}
+{/if}class
