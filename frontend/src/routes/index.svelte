@@ -38,9 +38,9 @@
     }
   }
 
-  const fetchCourses = async (courseId) => {
+  const fetchCourses = async (classId: number) => {
     const courseResponse = await fetch(
-      `http://localhost:2000/studentclass_course/${courseId}`
+      `http://localhost:2000/studentclass_course/${classId}`
     )
     return await courseResponse.json()
   }
@@ -146,7 +146,7 @@
   </div>
   <SuccessErrorMessage
     {success}
-    successMessage="Hooray you are registered preset to the lesson!"
+    successMessage="Hooray you are registered present to the lesson!"
     {error}
     errorMessage="Unknown token"
   />

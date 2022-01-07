@@ -92,5 +92,5 @@
   {success}
   successMessage="Hooray you signed in!"
   {error}
-  errorMessage="Invalid username or password"
+  errorMessage="Incorrect username or password"
 />

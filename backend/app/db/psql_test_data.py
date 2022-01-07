@@ -63,7 +63,7 @@ test_courses = [
         category="Category 2",
     ),
     Course(
-        name="Psysics",
+        name="Physics",
         category="Category 3",
     ),
 ]

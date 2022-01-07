@@ -14,7 +14,7 @@ from sqlmodel import Session
 router = APIRouter(
     prefix="/lesson",
     tags=["lesson"],
-    responses={404: {"description": "Lesson not found"}}
+    responses={404: {"description": "Lesson not found"}},
 )
 
 
@@ -28,9 +28,11 @@ async def read_specific_lesson(lesson_id: int, db: Session = Depends(get_session
 
 @router.get("/token/{token}")
 async def read_lesson_from_token(token: str, db: Session = Depends(get_session)):
-    if db_token := get_lesson_by_token(db=db, token=token):
-        return db_token
-    raise HTTPException(status_code=404, detail="Token not found")
+    if db_lesson := get_lesson_by_token(db=db, token=token):
+        return db_lesson
+    raise HTTPException(
+        status_code=404, detail="No lesson(s) with the selected token was found"
+    )
 
 
 @router.get("/")
