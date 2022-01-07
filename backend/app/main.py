@@ -21,7 +21,6 @@ from app.routers import lecturer_studentclass
 from app.routers import lesson
 from app.routers import statistics
 from app.routers import student
-from app.routers import student_attendance
 from app.routers import studentclass
 from app.routers import studentclass_course
 from app.routers import test_psql
@@ -60,7 +59,6 @@ app.include_router(lecturer.router)
 app.include_router(lesson.router)
 app.include_router(attendance.router)
 app.include_router(course_lesson.router)
-app.include_router(student_attendance.router)
 app.include_router(studentclass_course.router)
 app.include_router(lecturer_studentclass.router)
 app.include_router(test_psql.router)
@@ -105,15 +103,15 @@ users_db = {
     "henrikpoelse@stud.kea.dk": {
         "username": "henrikpoelse6666",
         "full_name": "John Doe",
-        "password": "123456",
+        "password": "123",
         "user_type": "student",
         "person_id": 1,
         "class_id": 1,
     },
-    "pubae@stud.kea.dk": {
+    "pubae@kea.dk": {
         "username": "pubae1234",
         "full_name": "Bølle Bob",
-        "password": "321",
+        "password": "123",
         "user_type": "lecturer",
         "person_id": 4,
         "class_id": 2,

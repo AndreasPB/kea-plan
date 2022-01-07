@@ -8,7 +8,7 @@ jobs:
       - name: Build
         run: docker-compose up --build -d backend
       - name: Run tests
-        run: docker-compose run backend pytest -v --cov=app --cov-report=xml ../tests
+        run: sleep 5 && docker-compose run backend pytest -v --cov=app --cov-report=xml ../tests
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:

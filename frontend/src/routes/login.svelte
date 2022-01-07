@@ -1,5 +1,7 @@
 <script lang="ts">
   import { user } from "../stores/auth"
+  import { onMount } from "svelte"
+  import SuccessErrorMessage from "../components/success-error-message.svelte"
 
   let username = ""
   let password = ""
@@ -39,11 +41,18 @@
       }
     })
   }
+
+  onMount(() => {
+    if ($user.access_token) {
+      location.href = "/"
+    }
+  })
 </script>
 
 <div class="p-10 card bg-base-200">
   <form on:submit|preventDefault={signIn}>
     <div class="form-control">
+      <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
         <span class="label-text">Username</span>
       </label>
@@ -54,6 +63,7 @@
         id="username"
         bind:value={username}
       />
+      <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="label">
         <span class="label-text">Password</span>
       </label>
@@ -78,46 +88,9 @@
     </div>
   </form>
 </div>
-{#if error}
-  <div class="pt-5">
-    <div class="alert alert-error">
-      <div class="flex-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="w-6 h-6 mx-2 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-          />
-        </svg>
-        <label id="errorLabel">Incorrect username or password</label>
-      </div>
-    </div>
-  </div>
-{:else if success}
-  <div class="pt-5">
-    <div class="alert alert-success">
-      <div class="flex-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="w-6 h-6 mx-2 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <label>Hooray you signed in!</label>
-      </div>
-    </div>
-  </div>
-{/if}
+<SuccessErrorMessage
+  {success}
+  successMessage="Hooray you signed in!"
+  {error}
+  errorMessage="Incorrect username or password"
+/>

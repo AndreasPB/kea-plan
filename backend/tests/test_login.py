@@ -9,7 +9,7 @@ client = TestClient(app)
 
 def test_login():
     response = client.post(
-        "/login", data={"username": "henrikpoelse@stud.kea.dk", "password": "123456"}
+        "/login", data={"username": "henrikpoelse@stud.kea.dk", "password": "123"}
     )
     assert response.status_code == 200
 
@@ -27,8 +27,8 @@ def test_login():
 
 def test_input():
     assert UserInput(username="henrikpoelse@stud.kea.dk")
-    assert UserInput(username="henrikpoelse@stud.kea.dk", password=123456)
-    assert UserInput(password=123456)
+    assert UserInput(username="henrikpoelse@stud.kea.dk", password=123)
+    assert UserInput(password=123)
 
     with pytest.raises(HTTPException):
         assert UserInput(username="21")

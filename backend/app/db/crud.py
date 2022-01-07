@@ -5,7 +5,6 @@ from app.db.psql_models import Lecturer
 from app.db.psql_models import LecturerClassLink
 from app.db.psql_models import Lesson
 from app.db.psql_models import Student
-from app.db.psql_models import StudentAttendanceLink
 from app.db.psql_models import StudentClass
 from app.db.psql_models import StudentClassCourseLink
 from app.db.psql_models import User
@@ -125,6 +124,12 @@ def get_lesson_by_id(db: Session, lesson_id: int):
     return db.get(Lesson, lesson_id)
 
 
+def get_lesson_by_token(db: Session, token: str):
+    with db:
+        statement = select(Lesson).where(Lesson.attendance_token == token)
+        return db.exec(statement).first()
+
+
 def get_lessons(db: Session):
     return db.exec(select(Lesson)).all()
 
@@ -156,6 +161,16 @@ def get_attendance_by_id(db: Session, attendance_id: int):
 
 def get_attendances(db: Session):
     return db.exec(select(Attendance)).all()
+
+
+def get_attendances_by_lesson_id(db: Session, lesson_id: int):
+    with db:
+        statement = (
+            select(Attendance, Student.name)
+            .where(Attendance.lesson_id == lesson_id)
+            .join(Student)
+        )
+        return db.exec(statement).all()
 
 
 def create_attendance(db: Session, attendance: Attendance):
@@ -228,25 +243,6 @@ def create_studentclass_course(
     db.commit()
     db.refresh(db_studentclass_course)
     return db_studentclass_course
-
-
-# StudentAttendanceLink
-def get_student_attendances_by_id(db: Session, student_id: int):
-    return db.exec(
-        select(Attendance).join(StudentAttendanceLink).where(Student.id == student_id)
-    ).all()
-
-
-def get_student_attendances(db: Session):
-    return db.exec(select(StudentAttendanceLink)).all()
-
-
-def create_student_attendance(db: Session, student_attendance: StudentAttendanceLink):
-    db_student_attendance = StudentAttendanceLink(**student_attendance.dict())
-    db.add(db_student_attendance)
-    db.commit()
-    db.refresh(db_student_attendance)
-    return db_student_attendance
 
 
 # CourseLessonLink
