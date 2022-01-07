@@ -1,4 +1,5 @@
 from app.db.crud import get_lesson_by_id
+from app.db.crud import get_lesson_by_token
 from app.db.crud import get_lessons
 from app.db.psql import engine
 from app.db.psql_models import Lesson
@@ -18,6 +19,18 @@ def test_get_lesson():
 
     with Session(engine) as session:
         db_data = get_lesson_by_id(session, 1)
+        assert db_data == Lesson(**data)
+
+
+def test_get_lesson_by_token():
+    response = client.get("/lesson/token/a111")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert Lesson(**data)
+
+    with Session(engine) as session:
+        db_data = get_lesson_by_token(session, "a111")
         assert db_data == Lesson(**data)
 
 

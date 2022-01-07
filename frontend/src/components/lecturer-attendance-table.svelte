@@ -25,7 +25,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- For hver attendance der matcher lesson id for token -->
           {#each lessonAttendance as attendance}
             <tr>
               <td>{attendance.Attendance.student_id}</td>

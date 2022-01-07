@@ -89,8 +89,8 @@
   </form>
 </div>
 <SuccessErrorMessage
-  success={success}
+  {success}
   successMessage="Hooray you signed in!"
-  error={error}
+  {error}
   errorMessage="Invalid username or password"
 />

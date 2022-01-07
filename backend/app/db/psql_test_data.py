@@ -80,31 +80,31 @@ test_lessons = [
         name="Lesson 1",
         start=datetime(2020, 10, 10, 8, 30),
         duration=240,
-        attendance_token="1111",
+        attendance_token="a111",
     ),
     Lesson(
         name="Lesson 2",
         start=datetime(2020, 10, 11, 8, 30),
         duration=240,
-        attendance_token="2222",
+        attendance_token="b222",
     ),
     Lesson(
         name="Lesson 3",
         start=datetime(2020, 10, 12, 8, 30),
         duration=240,
-        attendance_token="3333",
+        attendance_token="c333",
     ),
     Lesson(
         name="Lesson 4",
         start=datetime(2020, 10, 11, 12, 30),
         duration=180,
-        attendance_token="4444",
+        attendance_token="d444",
     ),
     Lesson(
         name="Lesson 5",
         start=datetime(2020, 10, 12, 12, 30),
         duration=180,
-        attendance_token="5555",
+        attendance_token="e555",
     ),
 ]
 

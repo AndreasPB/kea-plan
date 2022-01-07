@@ -124,7 +124,7 @@ def get_lesson_by_id(db: Session, lesson_id: int):
     return db.get(Lesson, lesson_id)
 
 
-def get_lesson_by_token(db: Session, token: int):
+def get_lesson_by_token(db: Session, token: str):
     with db:
         statement = select(Lesson).where(Lesson.attendance_token == token)
         return db.exec(statement).first()

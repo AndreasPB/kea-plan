@@ -180,4 +180,4 @@
 {:else if $user.user_type == "admin"}
   <!-- else content here -->
   <h1>I AM ADMIN</h1>
-{/if}class
+{/if}
