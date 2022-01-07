@@ -1,23 +1,14 @@
 from datetime import datetime
 
 from app.db.crud import get_attendance_by_id
-from app.db.crud import get_attendances
 from app.db.crud import get_course_by_id
-from app.db.crud import get_course_lessons
 from app.db.crud import get_course_lessons_by_id
-from app.db.crud import get_courses
 from app.db.crud import get_lecturer_by_id
-from app.db.crud import get_lecturer_classes
 from app.db.crud import get_lecturer_studentclass_by_id
-from app.db.crud import get_lecturers
 from app.db.crud import get_lesson_by_id
-from app.db.crud import get_lessons
 from app.db.crud import get_student_by_id
 from app.db.crud import get_studentclass_by_id
 from app.db.crud import get_studentclass_course_by_id
-from app.db.crud import get_studentclass_courses
-from app.db.crud import get_studentclasses
-from app.db.crud import get_students
 from app.db.psql import engine
 from app.db.psql_models import Attendance
 from app.db.psql_models import Course
@@ -25,6 +16,7 @@ from app.db.psql_models import CourseLessonLink
 from app.db.psql_models import Lecturer
 from app.db.psql_models import LecturerClassLink
 from app.db.psql_models import Lesson
+from app.db.psql_models import SQLModel
 from app.db.psql_models import Student
 from app.db.psql_models import StudentClass
 from app.db.psql_models import StudentClassCourseLink
@@ -193,6 +185,8 @@ test_course_lesson_links = [
 
 def setup_psql_test_data() -> bool:
     try:
+        SQLModel.metadata.create_all(engine)
+
         with Session(engine) as session:
             if not get_studentclass_by_id(session, 1):
                 session.add_all(test_studentclasses)
@@ -253,53 +247,8 @@ def setup_psql_test_links() -> bool:
 
 def teardown_psql() -> bool:
     try:
-        with Session(engine) as session:
-            lecturer_class_links = get_lecturer_classes(session)
-            studentclass_course_links = get_studentclass_courses(session)
-            course_lesson_links = get_course_lessons(session)
-
-            for lecturer_class in lecturer_class_links:
-                session.delete(lecturer_class)
-
-            for studentclass_course in studentclass_course_links:
-                session.delete(studentclass_course)
-
-            for course_lesson in course_lesson_links:
-                session.delete(course_lesson)
-
-            session.commit()
-
-        with Session(engine) as session:
-            attendances = get_attendances(session)
-
-            for attendance in attendances:
-                session.delete(attendance)
-
-            session.commit()
-
-        with Session(engine) as session:
-            studentclasses = get_studentclasses(session)
-            students = get_students(session)
-            courses = get_courses(session)
-            lecturers = get_lecturers(session)
-            lessons = get_lessons(session)
-
-            for studentclass in studentclasses:
-                session.delete(studentclass)
-
-            for student in students:
-                session.delete(student)
-
-            for course in courses:
-                session.delete(course)
-
-            for lecturer in lecturers:
-                session.delete(lecturer)
-
-            for lesson in lessons:
-                session.delete(lesson)
-
-            session.commit()
+        # TODO: Breaks setup_psql_test_data() when run - fix
+        SQLModel.metadata.drop_all(engine)
     except Exception as e:
         print(e)
         return False
