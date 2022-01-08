@@ -9,6 +9,7 @@ from app.db.crud import get_lesson_by_id
 from app.db.crud import get_student_by_id
 from app.db.crud import get_studentclass_by_id
 from app.db.crud import get_studentclass_course_by_id
+from app.db.crud import get_user_by_id
 from app.db.psql import engine
 from app.db.psql_models import Attendance
 from app.db.psql_models import Course
@@ -20,6 +21,7 @@ from app.db.psql_models import SQLModel
 from app.db.psql_models import Student
 from app.db.psql_models import StudentClass
 from app.db.psql_models import StudentClassCourseLink
+from app.db.psql_models import User
 from sqlmodel import Session
 
 
@@ -36,19 +38,19 @@ test_studentclasses = [
 
 test_students = [
     Student(
-        name="John",
+        name="John Hest",
         class_id=1,
     ),
     Student(
-        name="Jane",
+        name="Jane Sickle",
         class_id=1,
     ),
     Student(
-        name="Bob",
+        name="Bob McOlsen",
         class_id=2,
     ),
     Student(
-        name="Alice",
+        name="Alice Jansson",
         class_id=2,
     ),
 ]
@@ -70,9 +72,9 @@ test_courses = [
 
 
 test_lecturers = [
-    Lecturer(name="Hans"),
-    Lecturer(name="Peter"),
-    Lecturer(name="Emil"),
+    Lecturer(name="Hans Ihinterser"),
+    Lecturer(name="Peter Lakrids"),
+    Lecturer(name="Emil Hönsemand"),
 ]
 
 test_lessons = [
@@ -179,7 +181,28 @@ test_course_lesson_links = [
     CourseLessonLink(
         course_id=3,
         lesson_id=3,
+    )
+]
+
+test_users = [
+    User(
+        username="johe@stud.kea.dk",
+        password="123",
+        full_name="John Hest",
+        user_type="student",
+        student_id=1,
+        lecturer_id=None,
+        class_id=1
     ),
+    User(
+        username="pela@kea.dk",
+        password="123",
+        full_name="Peter Lakrids",
+        user_type="lecturer",
+        student_id=None,
+        lecturer_id=2,
+        class_id=2
+    )
 ]
 
 
@@ -202,6 +225,9 @@ def setup_psql_test_data() -> bool:
 
             if not get_lesson_by_id(session, 1):
                 session.add_all(test_lessons)
+
+            if not get_user_by_id(session, 1):
+                session.add_all(test_users)
 
             session.commit()
     except Exception as e:

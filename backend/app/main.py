@@ -4,7 +4,9 @@ import string
 from typing import Optional
 
 from app.config import get_settings
+from app.db.crud import get_user_by_username
 from app.db.psql import engine
+from app.db.psql import get_session
 from app.db.psql_models import SQLModel
 from app.db.psql_test_data import setup_psql_test_attendances
 from app.db.psql_test_data import setup_psql_test_data
@@ -31,6 +33,7 @@ from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from pydantic.class_validators import validator
+from sqlmodel import Session
 from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -99,39 +102,6 @@ async def read_root():
     return {"message": "Welcome to KEAPlan's Web API - Go to /docs for an API overview"}
 
 
-users_db = {
-    "henrikpoelse@stud.kea.dk": {
-        "username": "henrikpoelse6666",
-        "full_name": "John Doe",
-        "password": "123",
-        "user_type": "student",
-        "person_id": 1,
-        "class_id": 1,
-    },
-    "pubae@kea.dk": {
-        "username": "pubae1234",
-        "full_name": "Bølle Bob",
-        "password": "123",
-        "user_type": "lecturer",
-        "person_id": 4,
-        "class_id": 2,
-    },
-}
-
-
-# TODO implement email validation https://github.com/JoshData/python-email-validator
-class User(BaseModel):
-    username: str
-    full_name: Optional[str] = None
-    user_type: str
-    person_id: int
-    class_id: int
-
-
-class UserInDB(User):
-    password: str
-
-
 class UserInput(BaseModel):
     username: Optional[str]
     password: Optional[str]
@@ -166,15 +136,14 @@ class UserInput(BaseModel):
 
 
 @app.post("/login")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(),
+                db: Session = Depends(get_session)):
     user_input = UserInput(username=form_data.username)
-    user_dict = users_db.get(user_input.username)
-    if not user_dict:
+    user = get_user_by_username(db, user_input.username)
+    if not user:
         raise HTTPException(status_code=400, detail="Incorrect username")
-    user = UserInDB(**user_dict)
     user_input = UserInput(password=form_data.password)
-    password = user_input.password
-    if not password == user.password:
+    if not user_input.password == user.password:
         raise HTTPException(status_code=400, detail="Incorrect password")
 
     return {
@@ -187,6 +156,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         "username": user.username,
         "full_name": user.full_name,
         "user_type": user.user_type,
-        "person_id": user.person_id,
-        "class_id": user.class_id,
+        "student_id": user.student_id,
+        "lecturer_id": user.lecturer_id,
+        "class_id": user.class_id
     }

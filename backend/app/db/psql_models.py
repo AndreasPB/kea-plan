@@ -101,6 +101,9 @@ class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     username: str
     password: str
+    full_name: str
     user_type: str
 
     student_id: Optional[int] = Field(default=None, foreign_key="student.id")
+    lecturer_id: Optional[int] = Field(default=None, foreign_key="lecturer.id")
+    class_id: Optional[int] = Field(default=None, foreign_key="studentclass.id")

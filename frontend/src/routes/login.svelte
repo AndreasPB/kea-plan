@@ -26,7 +26,8 @@
           $user.full_name = data.full_name
           $user.access_token = data.access_token
           $user.user_type = data.user_type
-          $user.person_id = data.person_id
+          $user.student_id = data.student_id
+          $user.lecturer_id = data.lecturer_id
           $user.class_id = data.class_id
         })
         setTimeout(function () {

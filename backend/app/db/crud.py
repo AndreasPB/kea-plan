@@ -203,6 +203,16 @@ def get_users(db: Session):
     return db.exec(select(User)).all()
 
 
+def get_user_by_id(db: Session, user_id: int):
+    return db.get(User, user_id)
+
+
+def get_user_by_username(db: Session, username: str) -> User:
+    with db:
+        statement = select(User).where(User.username == username)
+        return db.exec(statement).first()
+
+
 # LecturerClassLink
 def get_lecturer_studentclass_by_id(db: Session, lecturer_id: int):
     return db.exec(

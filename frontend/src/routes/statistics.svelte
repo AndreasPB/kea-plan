@@ -11,7 +11,7 @@
     switch ($user.user_type) {
       case "student":
         var studentResponse = await fetch(
-          `${API_URL}/statistics/student/${$user.person_id}`
+          `${API_URL}/statistics/student/${$user.student_id}`
         )
         return await studentResponse.json()
 

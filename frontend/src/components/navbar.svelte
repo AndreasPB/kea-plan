@@ -45,7 +45,8 @@
                   full_name: null,
                   access_token: null,
                   user_type: null,
-                  person_id: null,
+                  student_id: null,
+                  lecturer_id: null,
                   class_id: null,
                 })}
             >
