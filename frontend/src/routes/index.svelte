@@ -83,7 +83,7 @@
       body: JSON.stringify({
         time_of_attendance: Date.now(),
         lesson_id: lessonId,
-        student_id: $user.person_id,
+        student_id: $user.student_id,
       }),
     })
     if (lessonResponse.status === 200) {
@@ -112,7 +112,7 @@
 
 <h1 class="flex justify-center m-10">Welcome to KEAPlan {$user.full_name}</h1>
 
-{#if $user.user_type == "student"}
+{#if $user.user_type === "student"}
   <div class="flex justify-center">
     <div class="p-10 card bg-base-200 max-w-md">
       <form
@@ -150,7 +150,7 @@
     {error}
     errorMessage="Unknown token"
   />
-{:else if $user.user_type == "lecturer"}
+{:else if $user.user_type === "lecturer"}
   {#await fetchCourses($user.class_id)}
     <p>Loading courses...</p>
   {:then courses}
@@ -177,7 +177,7 @@
     </div>
   {/await}
   <LecturerAttendanceTable {token} {lessonAttendance} />
-{:else if $user.user_type == "admin"}
+{:else if $user.user_type === "admin"}
   <!-- else content here -->
   <h1>I AM ADMIN</h1>
 {/if}

@@ -3,8 +3,8 @@ import random
 import string
 from typing import Optional
 
-from app.db.crud import get_user_by_username
 from app.config import get_settings
+from app.db.crud import get_user_by_username
 from app.db.psql import engine
 from app.db.psql import get_session
 from app.db.psql_models import SQLModel
@@ -102,39 +102,6 @@ async def read_root():
     return {"message": "Welcome to KEAPlan's Web API - Go to /docs for an API overview"}
 
 
-users_db = {
-    "henrikpoelse@stud.kea.dk": {
-        "username": "henrikpoelse6666",
-        "full_name": "John Doe",
-        "password": "123",
-        "user_type": "student",
-        "person_id": 1,
-        "class_id": 1,
-    },
-    "pubae@kea.dk": {
-        "username": "pubae1234",
-        "full_name": "Bølle Bob",
-        "password": "123",
-        "user_type": "lecturer",
-        "person_id": 4,
-        "class_id": 2,
-    },
-}
-
-
-# TODO implement email validation https://github.com/JoshData/python-email-validator
-# class User(BaseModel):
-#     username: str
-#     full_name: Optional[str] = None
-#     user_type: str
-#     person_id: int
-#     class_id: int
-#
-#
-# class UserInDB(User):
-#     password: str
-
-
 class UserInput(BaseModel):
     username: Optional[str]
     password: Optional[str]
@@ -173,7 +140,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                 db: Session = Depends(get_session)):
     user_input = UserInput(username=form_data.username)
     user = get_user_by_username(db, user_input.username)
-    print(user)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect username")
     user_input = UserInput(password=form_data.password)
@@ -192,4 +158,5 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
         "user_type": user.user_type,
         "student_id": user.student_id,
         "lecturer_id": user.lecturer_id,
+        "class_id": user.class_id
     }
