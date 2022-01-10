@@ -195,6 +195,33 @@ test_users = [
         class_id=1
     ),
     User(
+        username="jasi@stud.kea.dk",
+        password="123",
+        full_name="Jane Sickle",
+        user_type="student",
+        student_id=2,
+        lecturer_id=None,
+        class_id=1
+    ),
+    User(
+        username="bomc@stud.kea.dk",
+        password="123",
+        full_name="Bob McOlsen",
+        user_type="student",
+        student_id=3,
+        lecturer_id=None,
+        class_id=1
+    ),
+    User(
+        username="alja@stud.kea.dk",
+        password="123",
+        full_name="Alice Jansson",
+        user_type="student",
+        student_id=4,
+        lecturer_id=None,
+        class_id=1
+    ),
+    User(
         username="pela@kea.dk",
         password="123",
         full_name="Peter Lakrids",
