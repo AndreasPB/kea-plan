@@ -262,6 +262,7 @@ def get_course_lessons_by_id(db: Session, course_id: int):
     ).all()
 
 
+# Get all courselessonlinks
 def get_course_lessons(db: Session):
     return db.exec(select(CourseLessonLink)).all()
 
